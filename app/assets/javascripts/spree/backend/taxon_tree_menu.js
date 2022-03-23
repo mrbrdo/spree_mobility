@@ -9,11 +9,7 @@
     admin_base_url = Spree.url(Spree.routes.admin_taxonomy_taxons_path);
     edit_url = admin_base_url.clone();
     edit_url.setPath(edit_url.path() + '/' + id + "/edit");
-    translation_url = admin_base_url.clone();
-    translation_base_path = admin_base_url.path().replace(/taxons/, "translations");
-    translation_base_path = translation_base_path.replace(/taxonomies/, "taxons");
-    translation_base_path = translation_base_path.replace(/\d+/, id);
-    translation_url.setPath(translation_base_path);
+    translation_url = Spree.url(admin_base_url.path().replace(/\/taxonomies\/\d.+$/, '') + '/taxons/' + id + '/translations');
     return {
       create: {
         label: "<span class='icon icon-plus'></span> " + Spree.translations.add,
