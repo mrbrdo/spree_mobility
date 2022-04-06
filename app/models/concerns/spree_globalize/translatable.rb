@@ -15,6 +15,7 @@ module SpreeGlobalize
       def ransack(params = {}, options = {})
         params ||= {}
         names = params.keys
+        params[:translations_locale_eq] ||= I18n.locale.to_s
 
         names.each do |n|
           translated_attribute_names.each do |t|
