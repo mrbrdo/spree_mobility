@@ -25,13 +25,19 @@ module SpreeMobility
                   else
                     Config.supported_locales
                   end
-      default = I18n.default_locale
+      default = I18n.default_locale.to_s
 
-      Mobility.fallbacks = supported.inject({}) do |fallbacks, locale|
-        if locale.to_sym == default
-          fallbacks.merge(locale => [locale].push(supported-[locale]).flatten)
+      fallbacks_map = supported.inject({}) do |fallbacks, locale|
+        if locale == default
+          fallbacks.merge(locale => (supported-[locale]).flatten)
         else
-          fallbacks.merge(locale => [locale, default].push(supported-[locale, default]).flatten)
+          fallbacks.merge(locale => [default].push(supported-[locale, default]).flatten)
+        end
+      end
+      
+      Mobility.configure do
+        plugins do
+          fallbacks fallbacks_map
         end
       end
     end
