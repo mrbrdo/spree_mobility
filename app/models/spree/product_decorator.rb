@@ -1,5 +1,21 @@
 module Spree
   module ProductDecorator
+    module ClassMethods
+      def search_by_name(query)
+        joins(:translations).order(:name).where("LOWER(#{Spree::Product::Translation.table_name}.name) LIKE LOWER(:query)", query: "%#{query}%").distinct
+      end
+      
+      def like_any(fields, values)
+        translations = Spree::Product::Translation.arel_table
+        source = fields.product(values, [translations, arel_table])
+        clauses = source.map do |(field, value, arel)|
+          arel[field].matches("%#{value}%")
+        end.inject(:or)
+  
+        joins(:translations).where(translations[:locale].eq(I18n.locale)).where(clauses)
+      end
+    end
+    
     def self.prepended(base)
       base.translates :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
@@ -13,18 +29,7 @@ module Spree
       else
         base.translation_class.send(:define_method, :punch_slug) { update(slug: "#{Time.now.to_i}_#{slug}") }
       end
-
-      def base.like_any(fields, values)
-        translations = Spree::Product::Translation.arel_table
-        source = fields.product(values, [translations, arel_table])
-        clauses = source.map do |(field, value, arel)|
-          arel[field].matches("%#{value}%")
-        end.inject(:or)
-  
-        joins(:translations).where(translations[:locale].eq(I18n.locale)).where(clauses)
-      end
     end
-
 
     Spree::Product.include SpreeMobility::Translatable
 
@@ -53,3 +58,4 @@ module Spree
 end
 
 SpreeMobility.prepend_once(::Spree::Product, Spree::ProductDecorator)
+SpreeMobility.prepend_once(::Spree::Product.singleton_class, Spree::ProductDecorator::ClassMethods)
