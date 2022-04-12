@@ -6,4 +6,4 @@ module Spree::PropertyDecorator
   Spree::Property.include SpreeMobility::Translatable
 end
 
-::Spree::Property.prepend(Spree::PropertyDecorator)
+SpreeMobility.prepend_once(::Spree::Property, Spree::PropertyDecorator)

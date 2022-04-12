@@ -19,4 +19,4 @@ module Spree
   end
 end
 
-::Spree::Admin::ProductPropertiesController.prepend(Spree::Admin::ProductPropertiesControllerDecorator)
+SpreeMobility.prepend_once(::Spree::Admin::ProductPropertiesController, Spree::Admin::ProductPropertiesControllerDecorator)

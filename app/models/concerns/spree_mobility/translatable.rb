@@ -6,6 +6,7 @@ module SpreeMobility
 
     included do |klass|
       klass.send :extend, Mobility
+      klass.send(:default_scope) { i18n }
       has_many :translations
       accepts_nested_attributes_for :translations
       klass.whitelisted_ransackable_associations ||= []

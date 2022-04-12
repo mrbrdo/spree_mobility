@@ -2,4 +2,4 @@ module Spree::BaseControllerDecorator
   Spree::BaseController.include(SpreeMobility::ControllerMobilityHelper)
 end
 
-::Spree::BaseController.prepend(Spree::BaseControllerDecorator)
+SpreeMobility.prepend_once(::Spree::BaseController, Spree::BaseControllerDecorator)

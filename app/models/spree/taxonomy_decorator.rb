@@ -6,4 +6,4 @@ module Spree::TaxonomyDecorator
   Spree::Taxonomy.include SpreeMobility::Translatable
 end
 
-::Spree::Taxonomy.prepend(Spree::TaxonomyDecorator)
+SpreeMobility.prepend_once(::Spree::Taxonomy, Spree::TaxonomyDecorator)

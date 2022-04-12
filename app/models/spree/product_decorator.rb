@@ -52,4 +52,4 @@ module Spree
   end
 end
 
-::Spree::Product.prepend(Spree::ProductDecorator)
+SpreeMobility.prepend_once(::Spree::Product, Spree::ProductDecorator)

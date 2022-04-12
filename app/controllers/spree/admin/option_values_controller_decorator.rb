@@ -20,4 +20,4 @@ module Spree
   end
 end
 
-::Spree::Admin::OptionValuesController.prepend(Spree::Admin::OptionValuesControllerDecorator)
+SpreeMobility.prepend_once(::Spree::Admin::OptionValuesController, Spree::Admin::OptionValuesControllerDecorator)

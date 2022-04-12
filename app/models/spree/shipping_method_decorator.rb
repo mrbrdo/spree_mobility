@@ -6,4 +6,4 @@ module Spree::ShippingMethodDecorator
   Spree::ShippingMethod.include SpreeMobility::Translatable
 end
 
-::Spree::ShippingMethod.prepend(Spree::ShippingMethodDecorator)
+SpreeMobility.prepend_once(::Spree::ShippingMethod, Spree::ShippingMethodDecorator)

@@ -8,4 +8,4 @@ module Spree::StoreDecorator
   Spree::Store.include SpreeMobility::Translatable
 end
 
-::Spree::Store.prepend(Spree::StoreDecorator)
+SpreeMobility.prepend_once(::Spree::Store, Spree::StoreDecorator)

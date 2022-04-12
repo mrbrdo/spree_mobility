@@ -15,4 +15,4 @@ module Spree
   end
 end
 
-::Spree::Admin::ShippingMethodsController.prepend(Spree::Admin::ShippingMethodsControllerDecorator)
+SpreeMobility.prepend_once(::Spree::Admin::ShippingMethodsController, Spree::Admin::ShippingMethodsControllerDecorator)
