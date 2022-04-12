@@ -4,7 +4,7 @@ module Spree::TaxonDecorator
       :permalink, fallbacks_for_empty_translations: true
   end
 
-  Spree::Taxon.include SpreeGlobalize::Translatable
+  Spree::Taxon.include SpreeMobility::Translatable
 end
 
 ::Spree::Taxon.prepend(Spree::TaxonDecorator)

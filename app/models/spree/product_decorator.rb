@@ -2,7 +2,7 @@ module Spree
   module ProductDecorator
     def self.prepended(base)
       base.translates :name, :description, :meta_title, :meta_description, :meta_keywords, :slug, fallbacks_for_empty_translations: true
-      base.friendly_id :slug_candidates, use: [:history, :globalize]
+      base.friendly_id :slug_candidates, use: [:history, :mobility]
 
       base.translation_class.acts_as_paranoid
       base.translation_class.after_destroy :punch_slug
@@ -26,7 +26,7 @@ module Spree
     end
 
 
-    Spree::Product.include SpreeGlobalize::Translatable
+    Spree::Product.include SpreeMobility::Translatable
 
     # Don't punch slug on original product as it prevents bulk deletion.
     # Also we don't need it, as it is translated.
@@ -43,7 +43,7 @@ module Spree
     private
 
     def duplicate_translations(old_product)
-      globalize.reset # Stash contains copied slugs of the product that's being duplicated
+      mobility.reset # Stash contains copied slugs of the product that's being duplicated
       old_product.translations.each do |translation|
         translation.slug = nil # slug must be regenerated
         self.translations << translation.dup

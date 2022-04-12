@@ -1,17 +1,17 @@
-require 'globalize'
-require 'friendly_id/globalize'
+require 'mobility'
+require 'friendly_id/mobility'
 
-module SpreeGlobalize
+module SpreeMobility
   class Engine < Rails::Engine
-    engine_name 'spree_globalize'
+    engine_name 'spree_mobility'
 
     config.autoload_paths += %W(#{config.root}/lib)
 
-    initializer "spree_globalize.environment", before: :load_config_initializers do |app|
-      SpreeGlobalize::Config = SpreeGlobalize::Configuration.new
+    initializer "spree_mobility.environment", before: :load_config_initializers do |app|
+      SpreeMobility::Config = SpreeMobility::Configuration.new
     end
 
-    initializer "spree_globalize.permitted_attributes", before: :load_config_initializers do |app|
+    initializer "spree_mobility.permitted_attributes", before: :load_config_initializers do |app|
       taxon_attributes = { translations_attributes: [:id, :locale, :name, :description, :permalink, :meta_description, :meta_keywords, :meta_title] }
       Spree::PermittedAttributes.taxon_attributes << taxon_attributes
 

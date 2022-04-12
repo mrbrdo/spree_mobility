@@ -3,7 +3,7 @@ module Spree::TaxonomyDecorator
     base.translates :name, fallbacks_for_empty_translations: true
   end
 
-  Spree::Taxonomy.include SpreeGlobalize::Translatable
+  Spree::Taxonomy.include SpreeMobility::Translatable
 end
 
 ::Spree::Taxonomy.prepend(Spree::TaxonomyDecorator)

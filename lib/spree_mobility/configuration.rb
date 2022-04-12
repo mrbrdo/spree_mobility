@@ -1,8 +1,8 @@
-module SpreeGlobalize
+module SpreeMobility
   class Configuration < Spree::Preferences::Configuration
     # These configs intend to, respectively:
     #
-    #   Say which Globalized inputs are displayed on backend
+    #   Say which mobility inputs are displayed on backend
     #   Set locales that should be available for end users
     #
     # e.g. If available_locales are [:en, :es] admin can translate model records

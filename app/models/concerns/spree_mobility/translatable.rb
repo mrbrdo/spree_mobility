@@ -1,6 +1,7 @@
-module SpreeGlobalize
+module SpreeMobility
   module Translatable
     extend ActiveSupport::Concern
+    extend Mobility
 
     include Spree::RansackableAttributes
 

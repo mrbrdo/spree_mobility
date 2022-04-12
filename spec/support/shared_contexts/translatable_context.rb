@@ -29,7 +29,7 @@ shared_context "behaves as translatable" do
       [:es, :en, :de].each do |locale|
         create(:store, default_locale: locale)
       end
-      SpreeGlobalize::Fallbacks.config!
+      SpreeMobility::Fallbacks.config!
 
       model[attribute] = 'produto'
     end
@@ -47,7 +47,7 @@ shared_context "behaves as translatable" do
       [:es, :en, :de].each do |locale|
         create(:store, default_locale: locale)
       end
-      SpreeGlobalize::Fallbacks.config!
+      SpreeMobility::Fallbacks.config!
 
       model[attribute] = 'product'
     end

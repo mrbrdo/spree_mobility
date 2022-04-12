@@ -3,7 +3,7 @@ module Spree::ProductPropertyDecorator
     base.translates :value, fallbacks_for_empty_translations: true
   end
 
-  Spree::ProductProperty.include SpreeGlobalize::Translatable
+  Spree::ProductProperty.include SpreeMobility::Translatable
 end
 
 ::Spree::ProductProperty.prepend(Spree::ProductPropertyDecorator)

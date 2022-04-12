@@ -5,7 +5,7 @@ module Spree::StoreDecorator
     end
   end
 
-  Spree::Store.include SpreeGlobalize::Translatable
+  Spree::Store.include SpreeMobility::Translatable
 end
 
 ::Spree::Store.prepend(Spree::StoreDecorator)

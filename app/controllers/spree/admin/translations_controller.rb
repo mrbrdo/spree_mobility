@@ -5,7 +5,7 @@ module Spree
     if defined?(SpreeI18n::ControllerLocaleHelper)
       helper 'spree_i18n/locale'
     end
-    helper 'spree_globalize/locale'
+    helper 'spree_mobility/locale'
 
     helper_method :collection_url
 

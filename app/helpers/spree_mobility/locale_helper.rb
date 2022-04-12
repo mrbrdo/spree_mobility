@@ -1,4 +1,4 @@
-module SpreeGlobalize
+module SpreeMobility
   module LocaleHelper
     def select_available_locales_fields
       select_tag(

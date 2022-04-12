@@ -1,4 +1,4 @@
-module SpreeGlobalize
+module SpreeMobility
   module Fallbacks
     # Prevents the app from breaking when a translation is not present on the
     # default locale. It should search for translations in all supported
@@ -27,7 +27,7 @@ module SpreeGlobalize
                   end
       default = I18n.default_locale
 
-      Globalize.fallbacks = supported.inject({}) do |fallbacks, locale|
+      Mobility.fallbacks = supported.inject({}) do |fallbacks, locale|
         if locale.to_sym == default
           fallbacks.merge(locale => [locale].push(supported-[locale]).flatten)
         else

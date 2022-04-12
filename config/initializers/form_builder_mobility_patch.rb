@@ -2,7 +2,7 @@ module ActionView
   module Helpers
     class FormBuilder
       #
-      # Helper that renders globalize_translations fields
+      # Helper that renders mobility_translations fields
       # on a per-locale basis, so you can use them separately
       # in the same form and still saving them all at once
       # in the same request.
@@ -22,7 +22,7 @@ module ActionView
       #   <hr/>
       #
       #   <h2>Spanish translation</h2>
-      #   <% f.globalize_fields_for :es do |g| %>
+      #   <% f.mobility_fields_for :es do |g| %>
       #     <p><%= g.text_field :title %></p>
       #     <p><%= g.text_field :teaser %></p>
       #     <p><%= g.text_field :body %></p>
@@ -31,7 +31,7 @@ module ActionView
       #   <hr/>
       #
       #   <h2>French translation</h2>
-      #   <% f.globalize_fields_for :fr do |g| %>
+      #   <% f.mobility_fields_for :fr do |g| %>
       #     <p><%= g.text_field :title %></p>
       #     <p><%= g.text_field :teaser %></p>
       #     <p><%= g.text_field :body %></p>
@@ -39,7 +39,7 @@ module ActionView
       #
       # <% end %>
       #
-      def globalize_fields_for(locale, *args, &proc)
+      def mobility_fields_for(locale, *args, &proc)
         raise ArgumentError, "Missing block" unless block_given?
         @index      = @index ? @index + 1 : 1
         object_name = "#{@object_name}[translations_attributes][#{@index}]"

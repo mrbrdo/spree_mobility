@@ -1,6 +1,6 @@
 <div id="attr_fields">
   <% available_locales.each do |locale| %>
-    <%= f.globalize_fields_for locale.to_sym do |g| %>
+    <%= f.mobility_fields_for locale.to_sym do |g| %>
       <% @resource.class.translated_attribute_names.each_with_index do |attr, i| %>
         <div class="panel panel-default <%= attr %> <%= locale %>" style="display:<%= i == 0 ? 'auto' : 'none' %>;">
           <div class="panel-heading">
@@ -27,7 +27,7 @@
   <% end %>
 
   <p class="no-translations" style="display: none">
-    <%= Spree.t(:'globalize.no_translations_for_criteria') %>
+    <%= Spree.t(:'mobility.no_translations_for_criteria') %>
   </p>
 </div>
 

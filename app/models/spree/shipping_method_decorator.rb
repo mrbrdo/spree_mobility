@@ -3,7 +3,7 @@ module Spree::ShippingMethodDecorator
     base.translates :name, fallbacks_for_empty_translations: true
   end
 
-  Spree::ShippingMethod.include SpreeGlobalize::Translatable
+  Spree::ShippingMethod.include SpreeMobility::Translatable
 end
 
 ::Spree::ShippingMethod.prepend(Spree::ShippingMethodDecorator)
