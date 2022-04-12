@@ -1,11 +1,11 @@
 module SpreeMobility
   module Translatable
     extend ActiveSupport::Concern
-    extend Mobility
 
     include Spree::RansackableAttributes
 
     included do |klass|
+      klass.send :extend, Mobility
       has_many :translations
       accepts_nested_attributes_for :translations
       klass.whitelisted_ransackable_associations ||= []
@@ -13,6 +13,10 @@ module SpreeMobility
     end
 
     class_methods do
+      def translation_class
+        const_get('Translation')
+      end
+      
       def ransack(params = {}, options = {})
         params ||= {}
         names = params.keys

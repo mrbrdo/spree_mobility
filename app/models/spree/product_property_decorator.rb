@@ -1,6 +1,6 @@
 module Spree::ProductPropertyDecorator
   def self.prepended(base)
-    base.translates :value, fallbacks_for_empty_translations: true
+    base.translates :value
   end
 
   Spree::ProductProperty.include SpreeMobility::Translatable

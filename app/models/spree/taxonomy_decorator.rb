@@ -1,6 +1,6 @@
 module Spree::TaxonomyDecorator
   def self.prepended(base)
-    base.translates :name, fallbacks_for_empty_translations: true
+    base.translates :name
   end
 
   Spree::Taxonomy.include SpreeMobility::Translatable
