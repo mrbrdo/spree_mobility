@@ -32,7 +32,7 @@ module Spree
     end
 
     def resource
-      @resource ||= if slugged_models.include? klass.class_name
+      @resource ||= if slugged_models.include? klass.name
         klass.friendly.find(params[:resource_id])
       else
         klass.find(params[:resource_id])
@@ -47,7 +47,7 @@ module Spree
     end
 
     def slugged_models
-      ["SpreeProduct"]
+      ["Spree::Product"]
     end
   end
 end

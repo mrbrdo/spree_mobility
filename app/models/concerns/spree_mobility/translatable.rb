@@ -23,7 +23,7 @@ module SpreeMobility
         params[:translations_locale_eq] ||= I18n.locale.to_s
 
         names.each do |n|
-          translated_attribute_names.each do |t|
+          mobility_attributes.each do |t|
             if n.to_s.starts_with? t.to_s
               params[:"translations_#{n}"] = params[n]
               params.delete n
@@ -37,7 +37,13 @@ module SpreeMobility
 
       # preload translations
       def spree_base_scopes
-        super.with_translations
+        locales = translation_class.select('DISTINCT locale').order(:locale).map(&:locale)
+        # Avoid using "IN" with SQL queries when only using one locale.
+        locales = locales.first if locales.one?
+          
+        super.preload(:translations).joins(:translations).readonly(false).merge(translation_class.where(locale: locales)).tap do |query|
+          query.distinct! unless locales.flatten.one?
+        end
       end
     end
   end
