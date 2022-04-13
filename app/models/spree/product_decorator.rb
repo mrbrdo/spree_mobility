@@ -23,11 +23,12 @@ module Spree
       base.translation_class.acts_as_paranoid
       base.translation_class.after_destroy :punch_slug
       base.translation_class.default_scopes = []
+      base.translation_class.validates :slug, presence: true, uniqueness: { case_sensitive: false }
 
       if RUBY_VERSION.to_f >= 2.5
-        base.translation_class.define_method(:punch_slug) { update(slug: "#{Time.now.to_i}_#{slug}") }
+        base.translation_class.define_method(:punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }
       else
-        base.translation_class.send(:define_method, :punch_slug) { update(slug: "#{Time.now.to_i}_#{slug}") }
+        base.translation_class.send(:define_method, :punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }
       end
     end
 
@@ -48,9 +49,10 @@ module Spree
     private
 
     def duplicate_translations(old_product)
-      mobility.reset # Stash contains copied slugs of the product that's being duplicated
+      self.translations.clear
       old_product.translations.each do |translation|
         translation.slug = nil # slug must be regenerated
+        translation.name = "COPY OF #{translation.name}" unless translation.name&.start_with?('COPY OF ')
         self.translations << translation.dup
       end
     end
