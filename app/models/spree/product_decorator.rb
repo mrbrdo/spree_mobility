@@ -23,7 +23,7 @@ module Spree
       base.translation_class.acts_as_paranoid
       base.translation_class.after_destroy :punch_slug
       base.translation_class.default_scopes = []
-      base.translation_class.validates :slug, presence: true, uniqueness: { case_sensitive: false }
+      base.translation_class.validates :slug, presence: true, uniqueness: { scope: :locale, case_sensitive: false }
 
       if RUBY_VERSION.to_f >= 2.5
         base.translation_class.define_method(:punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }
