@@ -20,10 +20,20 @@ module Spree
       base.translates :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
 
-      base.translation_class.acts_as_paranoid
-      base.translation_class.after_destroy :punch_slug
-      base.translation_class.default_scopes = []
-      base.translation_class.validates :slug, presence: true, uniqueness: { scope: :locale, case_sensitive: false }
+      base.translation_class.class_eval do
+        acts_as_paranoid
+        after_destroy :punch_slug
+        default_scopes = []
+        validates :slug, presence: true, uniqueness: { scope: :locale, case_sensitive: false }
+
+        with_options length: { maximum: 255 }, allow_blank: true do
+          validates :meta_keywords
+          validates :meta_title
+        end
+        with_options presence: true do
+          validates :name
+        end
+      end
 
       if RUBY_VERSION.to_f >= 2.5
         base.translation_class.define_method(:punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }

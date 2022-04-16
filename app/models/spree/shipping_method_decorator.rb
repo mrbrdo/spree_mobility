@@ -1,6 +1,10 @@
 module Spree::ShippingMethodDecorator
   def self.prepended(base)
     base.translates :name
+    
+    base.translation_class.class_eval do
+      validates :name, presence: true
+    end
   end
 
   Spree::ShippingMethod.include SpreeMobility::Translatable

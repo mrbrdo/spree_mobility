@@ -1,6 +1,10 @@
 module Spree::PropertyDecorator
   def self.prepended(base)
     base.translates :name, :presentation
+    
+    base.translation_class.class_eval do
+      validates :name, :presentation, presence: true
+    end
   end
 
   # Currently, mobilize does not yet support fallbacks in query scopes,
