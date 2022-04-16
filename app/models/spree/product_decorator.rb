@@ -1,21 +1,94 @@
 module Spree
   module ProductDecorator
-    module ClassMethods
-      def search_by_name(query)
-        joins(:translations).order(:name).where("LOWER(#{Spree::Product::Translation.table_name}.name) LIKE LOWER(:query)", query: "%#{query}%").distinct
+    class ProductTranslationQuery
+      attr_reader :model, :search_attribute
+
+      def initialize(model, search_attribute)
+        @model = model
+        @search_attribute = search_attribute
       end
-      
-      def like_any(fields, values)
-        translations = Spree::Product::Translation.arel_table
-        source = fields.product(values, [translations, arel_table])
-        clauses = source.map do |(field, value, arel)|
-          arel[field].matches("%#{value}%")
-        end.inject(:or)
-  
-        joins(:translations).where(translations[:locale].eq(I18n.locale)).where(clauses)
+
+      def add_joins(search_scope)
+        fallback_locales.each do |locale|
+          search_scope =
+            model.mobility_backend_class(@search_attribute).
+            send(:join_translations, search_scope, locale, Arel::Nodes::OuterJoin)
+        end
+        search_scope
+      end
+
+      def col_name(attr)
+        select_columns = []
+        fallback_locales.each do |locale|
+          select_columns << "#{table_alias(locale)}.#{attr}"
+        end
+        "COALESCE(#{select_columns.join(',')})"
+      end
+
+      private
+
+      def fallback_locales
+        return @fallback_locales if @fallback_locales
+
+        @fallback_locales = [::Mobility.locale]
+        begin
+          backend = model.mobility_backend_class(@search_attribute)
+          @fallback_locales.concat(backend.fallbacks[::Mobility.locale])
+          @fallback_locales.uniq!
+        rescue KeyError # backend not found
+        end
+        @fallback_locales
+      end
+
+      def table_alias(locale)
+        model.mobility_backend_class(@search_attribute).table_alias(locale)
+      end
+
+      # Alternative method, not in use
+      def search_with_case_subquery(scope, query)
+        locale_int_cases = []
+        int_locale_cases = []
+
+        fallback_locales.each_with_index do |locale, idx|
+          locale_int_cases << "WHEN #{model.translation_class.table_name}.locale = '#{locale}' THEN #{idx + 1}"
+          int_locale_cases << "WHEN translation_score.highest_priority = #{idx + 1} THEN '#{locale}'"
+        end
+
+        locale_int = "(CASE #{locale_int_cases.join(' ')} ELSE NULL END)"
+        int_locale = "(CASE #{int_locale_cases.join(' ')} ELSE NULL END)"
+        names_subquery =
+          model.translation_class.where.not(name: nil).
+          select("spree_product_id, MIN(#{locale_int}) as highest_priority").
+          group(:spree_product_id)
+
+        scope.joins("INNER JOIN (#{names_subquery.to_sql}) AS translation_score ON translation_score.spree_product_id = spree_products.id INNER JOIN #{model.translation_class.table_name} ON #{model.translation_class.table_name}.spree_product_id = spree_products.id AND #{model.translation_class.table_name}.locale = #{int_locale}").
+        order(:name).where("LOWER(#{model.translation_class.table_name}.name) LIKE LOWER(:query)", query: "%#{query}%")
       end
     end
-    
+
+    module ClassMethods
+      def search_by_name(query)
+        helper = ProductTranslationQuery.new(all.model, :name)
+
+        helper.add_joins(self.all).
+        where("LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)", query: "%#{query}%").distinct
+      end
+
+      def like_any(fields, values)
+        mobility_fields = fields.select { |field| mobility_attributes.include?(field.to_s) }
+        other_fields = fields - mobility_fields
+
+        helper = ProductTranslationQuery.new(all.model, :name)
+        conditions = mobility_fields.product(values).map do |(field, value)|
+          sanitize_sql_array(["LOWER(#{helper.col_name(field)}) LIKE LOWER(?)", "%#{value}%"])
+        end
+
+        scope = other_fields.empty? ? self.all : super(other_fields, values)
+
+        helper.add_joins(scope).where(conditions.join(' OR '))
+      end
+    end
+
     def self.prepended(base)
       SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]

@@ -21,7 +21,9 @@ module SpreeMobility
       def ransack(params = {}, options = {})
         params ||= {}
         names = params.keys
-        params[:translations_locale_eq] ||= I18n.locale.to_s
+
+        # TODO: this should be used together with search param, only fallback if first is empty
+        # params[:translations_locale_in] ||= fallback_locales.map(&:to_s)
 
         names.each do |n|
           mobility_attributes.each do |t|
