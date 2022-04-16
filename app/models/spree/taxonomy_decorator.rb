@@ -17,7 +17,7 @@ module Spree::TaxonomyDecorator
   end
   
   def self.prepended(base)
-    base.translates :name
+    SpreeMobility.translates_for base, :name
     
     base.translation_class.class_eval do
       include TranslationMethods

@@ -17,7 +17,7 @@ module Spree::OptionValueDecorator
   end
   
   def self.prepended(base)
-    base.translates :name, :presentation
+    SpreeMobility.translates_for base, :name, :presentation
     
     base.translation_class.class_eval do
       include TranslationMethods

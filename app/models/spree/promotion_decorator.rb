@@ -1,6 +1,6 @@
 module Spree::PromotionDecorator
   def self.prepended(base)
-    base.translates :name, :description
+    SpreeMobility.translates_for base, :name, :description
     
     base.translation_class.class_eval do
       validates :name, presence: true

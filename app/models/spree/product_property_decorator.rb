@@ -1,6 +1,6 @@
 module Spree::ProductPropertyDecorator
   def self.prepended(base)
-    base.translates :value
+    SpreeMobility.translates_for base, :value
   end
 
   Spree::ProductProperty.include SpreeMobility::Translatable

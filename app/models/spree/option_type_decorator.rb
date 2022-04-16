@@ -1,6 +1,6 @@
 module Spree::OptionTypeDecorator
   def self.prepended(base)
-    base.translates :name, :presentation
+    SpreeMobility.translates_for base, :name, :presentation
     
     base.translation_class.class_eval do
       validates :name, presence: true, uniqueness: { scope: :locale, case_sensitive: false, allow_blank: true }

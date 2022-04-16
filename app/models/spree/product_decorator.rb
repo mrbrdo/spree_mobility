@@ -17,7 +17,7 @@ module Spree
     end
     
     def self.prepended(base)
-      base.translates :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
+      SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
 
       base.translation_class.class_eval do
