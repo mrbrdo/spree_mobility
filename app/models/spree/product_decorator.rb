@@ -73,6 +73,14 @@ module Spree
         helper.add_joins(self.all).
         where("LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)", query: "%#{query}%").distinct
       end
+    
+      def search_by_name_or_sku(query)
+        helper = ProductTranslationQuery.new(all.model, :name)
+
+        helper.add_joins(self.all).
+        joins(:variants_including_master).
+        where("(LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)) OR (LOWER(#{Spree::Variant.table_name}.sku) LIKE LOWER(:query))", query: "%#{query}%").distinct
+      end
 
       def like_any(fields, values)
         mobility_fields = fields.select { |field| mobility_attributes.include?(field.to_s) }
@@ -92,6 +100,7 @@ module Spree
     def self.prepended(base)
       SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
+      base.whitelisted_ransackable_scopes << 'search_by_name_or_sku'
 
       base.translation_class.class_eval do
         acts_as_paranoid
