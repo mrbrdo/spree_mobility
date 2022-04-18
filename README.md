@@ -1,12 +1,25 @@
 # Spree Mobility
 
-This is the globalization project based on `spree_globalize` for [Spree Commerce][1] version 4.3+.
+This is a Spree model translation gem based on `spree_globalize` for [Spree Commerce][1] version 4.3+.
 It uses `mobility` instead of `globalize`, since `globalize` is not actively developed anymore.
 It is a drop-in replacement for `spree_globalize` and will use your existing translations.
 
-Happy translating!
+## Improvements
 
----
+This gem offers several improvements over `spree_globalize`:
+
+* Proper translation fallbacks support (if a translation for the current locale is missing, it will fallback to other locales, strictly based on configured fallbacks):
+  * for finders (slug/permalink)
+  * when searching by product name (frontend & admin search)
+* Proper validations on translation models (e.g. slug presence validation), also meaning uniqueness validations will now work correctly per-locale
+* Better support for future versions of Rails as `mobility` is more actively maintained
+
+Admin:
+
+* Rich-text editor for product description translations in admin (if enabled)
+* Searching by product SKU in admin
+* Admin product search will no longer return duplicate results
+* Works correctly if using custom Spree.admin_path config
 
 ## Installation
 
