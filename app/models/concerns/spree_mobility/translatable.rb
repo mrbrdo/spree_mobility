@@ -34,15 +34,29 @@ module SpreeMobility
       end
       alias :search :ransack unless respond_to? :search
 
-      # preload translations
-      def spree_base_scopes
-        locales = translation_class.select('DISTINCT locale').order(:locale).map(&:locale)
-        # Avoid using "IN" with SQL queries when only using one locale.
-        locales = locales.first if locales.one?
-          
-        super.preload(:translations).joins(:translations).readonly(false).merge(translation_class.where(locale: locales)).tap do |query|
-          query.distinct! unless locales.flatten.one?
+      module CopyPreloadedActiveTranslationsToTranslations
+        # Although it has :nodoc, preload_associations is a public method of
+        # ActiveRecord::Relation and should be relatively safe to use.
+        # After the active_translations assoc is preloaded, we copy results over
+        # into translations - basically we load translations with results from
+        # active_translations.
+        def preload_associations(records)
+          super.tap do
+            records.each do |record|
+              # We don't want to overwrite translations if already present
+              next if record.association(:translations).target.present?
+              record.association(:translations).target =
+                record.association(:active_translations).target
+            end
+          end
         end
+      end
+
+      def spree_base_scopes
+        # Only preload translations for current locale and its fallbacks
+        scope = super.preload(:active_translations)
+        scope.singleton_class.prepend CopyPreloadedActiveTranslationsToTranslations
+        return scope
       end
     end
   end

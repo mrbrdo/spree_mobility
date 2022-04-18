@@ -21,6 +21,14 @@ module SpreeMobility
     klass.whitelisted_ransackable_associations ||= []
     klass.whitelisted_ransackable_associations << 'translations'
     clear_validations_for(klass, *attrs)
+
+    # used for preloading only current locale and its fallbacks
+    translations_assoc = klass.reflect_on_association(:translations)
+    klass.has_many :active_translations,
+      -> { where(locale: SpreeMobility.locale_with_fallbacks) },
+      class_name:  translations_assoc.class_name,
+      inverse_of:  translations_assoc.inverse_of.name,
+      foreign_key: translations_assoc.foreign_key
   end
 
   def self.locale_with_fallbacks
