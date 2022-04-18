@@ -28,16 +28,9 @@ module Spree
       private
 
       def fallback_locales
-        return @fallback_locales if @fallback_locales
-
-        @fallback_locales = [::Mobility.locale]
-        begin
-          backend = model.mobility_backend_class(@search_attribute)
-          @fallback_locales.concat(backend.fallbacks[::Mobility.locale])
-          @fallback_locales.uniq!
-        rescue KeyError # backend not found
-        end
-        @fallback_locales
+        # Cache this result, since Mobility.locale will not change
+        # during this class's lifetime
+        @fallback_locales ||= SpreeMobility.locale_with_fallbacks
       end
 
       def table_alias(locale)
@@ -101,7 +94,7 @@ module Spree
       SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
       base.whitelisted_ransackable_scopes << 'search_by_name_or_sku'
-
+  
       base.translation_class.class_eval do
         acts_as_paranoid
         after_destroy :punch_slug
