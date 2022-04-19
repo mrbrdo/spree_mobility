@@ -2,6 +2,7 @@ require 'spree_i18n'
 require 'spree_mobility/engine'
 require 'spree_mobility/version'
 require 'spree_mobility/fallbacks'
+require 'spree_mobility/translation_query'
 require 'deface'
 
 module SpreeMobility
