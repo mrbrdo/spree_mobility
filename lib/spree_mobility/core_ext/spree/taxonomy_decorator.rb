@@ -1,10 +1,10 @@
-module Spree::TaxonomyDecorator
+module SpreeMobility::CoreExt::Spree::TaxonomyDecorator
   module TranslationMethods
     def name_uniqueness_validation
       return unless name.present?
       return unless translated_model
       check_scope =
-        Spree::Taxonomy.
+        ::Spree::Taxonomy.
         where.not(id: translated_model.id).
         where(store_id: translated_model.store_id).
         joins(:translations).
@@ -17,6 +17,7 @@ module Spree::TaxonomyDecorator
   end
   
   def self.prepended(base)
+    base.include SpreeMobility::Translatable
     SpreeMobility.translates_for base, :name
     
     base.translation_class.class_eval do
@@ -25,8 +26,4 @@ module Spree::TaxonomyDecorator
       validate :name_uniqueness_validation
     end
   end
-
-  Spree::Taxonomy.include SpreeMobility::Translatable
 end
-
-SpreeMobility.prepend_once(::Spree::Taxonomy, Spree::TaxonomyDecorator)

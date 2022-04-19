@@ -1,10 +1,10 @@
-module Spree::OptionValueDecorator
+module SpreeMobility::CoreExt::Spree::OptionValueDecorator
   module TranslationMethods
     def name_uniqueness_validation
       return unless name.present?
       return unless translated_model
       check_scope =
-        Spree::OptionValue.
+        ::Spree::OptionValue.
         where.not(id: translated_model.id).
         where(option_type_id: translated_model.option_type_id).
         joins(:translations).
@@ -17,6 +17,7 @@ module Spree::OptionValueDecorator
   end
   
   def self.prepended(base)
+    base.include SpreeMobility::Translatable
     SpreeMobility.translates_for base, :name, :presentation
     
     base.translation_class.class_eval do
@@ -26,8 +27,4 @@ module Spree::OptionValueDecorator
       validates :presentation, presence: true
     end
   end
-
-  Spree::OptionValue.include SpreeMobility::Translatable
 end
-
-SpreeMobility.prepend_once(::Spree::OptionValue, Spree::OptionValueDecorator)

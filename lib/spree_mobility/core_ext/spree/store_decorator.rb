@@ -1,5 +1,6 @@
-module Spree::StoreDecorator
+module SpreeMobility::CoreExt::Spree::StoreDecorator
   def self.prepended(base)
+    base.include SpreeMobility::Translatable
     if ::ApplicationRecord.connected? && ::ApplicationRecord.connection.table_exists?(:spree_store_translations)
       SpreeMobility.translates_for base, :name, :meta_description, :meta_keywords, :seo_title
       
@@ -8,8 +9,4 @@ module Spree::StoreDecorator
       end
     end
   end
-
-  Spree::Store.include SpreeMobility::Translatable
 end
-
-SpreeMobility.prepend_once(::Spree::Store, Spree::StoreDecorator)

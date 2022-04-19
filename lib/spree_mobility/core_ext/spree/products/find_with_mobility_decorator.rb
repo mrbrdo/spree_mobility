@@ -1,4 +1,4 @@
-module Spree::Products::FindWithMobilityDecorator
+module SpreeMobility::CoreExt::Spree::Products::FindWithMobilityDecorator
   # The issue here is that ordering by translated attr (e.g. name) will add
   # an ORDER BY translations_table.name, but the query has a SELECT DISTINCT,
   # which would require the translations_table.name to be added to the SELECT
@@ -10,4 +10,3 @@ module Spree::Products::FindWithMobilityDecorator
   end
 end
 
-SpreeMobility.prepend_once(::Spree::Products::Find, Spree::Products::FindWithMobilityDecorator)

@@ -1,10 +1,10 @@
-module Spree::TaxonDecorator
+module SpreeMobility::CoreExt::Spree::TaxonDecorator
   module TranslationMethods
     def permalink_uniqueness_validation
       return unless permalink.present?
       return unless translated_model
       check_scope =
-        Spree::Taxon.
+        ::Spree::Taxon.
         where.not(id: translated_model.id).
         where(parent_id: translated_model.parent_id,
           taxonomy_id: translated_model.taxonomy_id).
@@ -20,7 +20,7 @@ module Spree::TaxonDecorator
       return unless name.present?
       return unless translated_model
       check_scope =
-        Spree::Taxon.
+        ::Spree::Taxon.
         where.not(id: translated_model.id).
         where(parent_id: translated_model.parent_id,
           taxonomy_id: translated_model.taxonomy_id).
@@ -34,6 +34,7 @@ module Spree::TaxonDecorator
   end
 
   def self.prepended(base)
+    base.include SpreeMobility::Translatable
     SpreeMobility.translates_for base, :name, :description, :meta_title,
       :meta_description, :meta_keywords, :permalink
     base.friendly_id :permalink, slug_column: :permalink, use: [:history, :mobility]
@@ -50,8 +51,4 @@ module Spree::TaxonDecorator
       validate :permalink_uniqueness_validation
     end
   end
-
-  Spree::Taxon.include SpreeMobility::Translatable
 end
-
-SpreeMobility.prepend_once(::Spree::Taxon, Spree::TaxonDecorator)

@@ -1,6 +1,4 @@
-require "mobility/backends/active_record/table"
-
-module ::Mobility::Backends::ActiveRecord
+module SpreeMobility::CoreExt::Mobility::Backends::ActiveRecord::Table
   module MobilityActsAsParanoidDecorator
     private
     def using_acts_as_paranoid?
@@ -31,5 +29,3 @@ module ::Mobility::Backends::ActiveRecord
     end
   end
 end
-
-SpreeMobility.prepend_once(::Mobility::Backends::ActiveRecord::Table.singleton_class, ::Mobility::Backends::ActiveRecord::MobilityActsAsParanoidDecorator)

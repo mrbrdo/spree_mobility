@@ -1,4 +1,4 @@
-module Spree
+module SpreeMobility::CoreExt::Spree
   module ProductDecorator
     class ProductTranslationQuery
       attr_reader :model, :search_attribute
@@ -72,7 +72,7 @@ module Spree
 
         helper.add_joins(self.all).
         joins(:variants_including_master).
-        where("(LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)) OR (LOWER(#{Spree::Variant.table_name}.sku) LIKE LOWER(:query))", query: "%#{query}%").distinct
+        where("(LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)) OR (LOWER(#{::Spree::Variant.table_name}.sku) LIKE LOWER(:query))", query: "%#{query}%").distinct
       end
 
       def like_any(fields, values)
@@ -91,6 +91,7 @@ module Spree
     end
 
     def self.prepended(base)
+      base.include SpreeMobility::Translatable
       SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
       base.whitelisted_ransackable_scopes << 'search_by_name_or_sku'
@@ -117,8 +118,6 @@ module Spree
       end
     end
 
-    Spree::Product.include SpreeMobility::Translatable
-
     # Don't punch slug on original product as it prevents bulk deletion.
     # Also we don't need it, as it is translated.
     def punch_slug; end
@@ -128,7 +127,7 @@ module Spree
     end
 
     def property(property_name)
-      product_properties.joins(:property).find_by(spree_properties: { id: Spree::Property.find_by(name: property_name) }).try(:value)
+      product_properties.joins(:property).find_by(spree_properties: { id: ::Spree::Property.find_by(name: property_name) }).try(:value)
     end
 
     private
@@ -143,6 +142,3 @@ module Spree
     end
   end
 end
-
-SpreeMobility.prepend_once(::Spree::Product, Spree::ProductDecorator)
-SpreeMobility.prepend_once(::Spree::Product.singleton_class, Spree::ProductDecorator::ClassMethods)
