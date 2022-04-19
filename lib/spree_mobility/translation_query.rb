@@ -1,16 +1,13 @@
 module SpreeMobility
   class TranslationQuery
-    attr_reader :model, :search_attribute
-
-    def initialize(model, search_attribute)
-      @model = model
-      @search_attribute = search_attribute
+    def initialize(mobility_backend_class)
+      @mobility_backend_class = mobility_backend_class
     end
 
     def add_joins(search_scope)
       fallback_locales.each do |locale|
         search_scope =
-          model.mobility_backend_class(@search_attribute).
+          @mobility_backend_class.
           send(:join_translations, search_scope, locale, ::Arel::Nodes::OuterJoin)
       end
       search_scope
@@ -33,7 +30,7 @@ module SpreeMobility
     end
 
     def table_alias(locale)
-      model.mobility_backend_class(@search_attribute).table_alias(locale)
+      @mobility_backend_class.table_alias(locale)
     end
   end
 end

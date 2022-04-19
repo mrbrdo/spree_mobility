@@ -4,14 +4,14 @@ module SpreeMobility::CoreExt::Spree
 
     module ClassMethods
       def search_by_name(query)
-        helper = SpreeMobility::TranslationQuery.new(all.model, :name)
+        helper = SpreeMobility::TranslationQuery.new(all.model.mobility_backend_class(:name))
 
         helper.add_joins(self.all).
         where("LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)", query: "%#{query}%").distinct
       end
     
       def search_by_name_or_sku(query)
-        helper = SpreeMobility::TranslationQuery.new(all.model, :name)
+        helper = SpreeMobility::TranslationQuery.new(all.model.mobility_backend_class(:name))
 
         helper.add_joins(self.all).
         joins(:variants_including_master).
@@ -22,7 +22,7 @@ module SpreeMobility::CoreExt::Spree
         mobility_fields = fields.select { |field| mobility_attributes.include?(field.to_s) }
         other_fields = fields - mobility_fields
 
-        helper = SpreeMobility::TranslationQuery.new(all.model, :name)
+        helper = SpreeMobility::TranslationQuery.new(all.model.mobility_backend_class(:name))
         conditions = mobility_fields.product(values).map do |(field, value)|
           sanitize_sql_array(["LOWER(#{helper.col_name(field)}) LIKE LOWER(?)", "%#{value}%"])
         end
