@@ -38,7 +38,8 @@ class MigrateTranslationData < SpreeExtension::Migration[4.2]
     translation_table = "#{model_klass.table_name.singularize}_translations"
     foreign_key = "#{model_klass.table_name.singularize}_id"
     
-    
+    # In case we are migrating from Globalize with existing translations, skip this step
+    return if ActiveRecord::Base.connection.execute("SELECT id FROM #{translation_table}").any?
     ActiveRecord::Base.connection.execute("SELECT id, #{field_names.join(',')} FROM #{model_klass.table_name}").each do |r|
       field_values =
         field_names.each_with_object([]) do |field_name, a|
