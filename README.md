@@ -45,6 +45,17 @@ vendor/assets/javascripts/spree/backend/all.js
 //= require spree/backend/spree_mobility
 ```
 
+It is also recommended to configure Mobility fallback locales, especially if your admin locale is not the same as your Store's default_locale. For example if you have en and de locale:
+
+```
+# config/initializers/mobility.rb
+Mobility.configure do
+  plugins do
+    fallbacks({ :en => [:de], :de => [:en] })
+  end
+end
+```
+
 ---
 
 ## Model Translations
