@@ -33,7 +33,7 @@ class AddTranslationsToMainModels < SpreeExtension::Migration[4.2]
     end
     
     unless table_exists?(:spree_product_property_translations)
-      create_helper :spree_option_value, { value: :string }
+      create_helper :spree_product_property, { value: :string }
     end
     
     unless table_exists?(:spree_store_translations)
@@ -54,14 +54,21 @@ class AddTranslationsToMainModels < SpreeExtension::Migration[4.2]
     drop_table :spree_property_translations
     drop_table :spree_taxonomy_translations
     drop_table :spree_taxon_translations
+    drop_table :spree_option_value_translations
+    drop_table :spree_product_property_translations
+    drop_table :spree_store_translations
+    drop_table :spree_shipping_method_translations
+    remove_column :friendly_id_slugs, :locale
   end
+  
+  protected
   
   def create_helper(table, params)
     create_table :"#{table}_translations" do |t|
 
       # Translated attribute(s)
-      params.each do |attr, t|
-        t.send t, attr
+      params.each_pair do |attr, attr_type|
+        t.send attr_type, attr
       end
 
       t.string  :locale, null: false
