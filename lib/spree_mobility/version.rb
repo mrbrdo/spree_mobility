@@ -8,10 +8,10 @@ module SpreeMobility
   end
 
   module VERSION
-    MAJOR = 4
+    MAJOR = 1
     MINOR = 0
     TINY  = 0
-    PRE   = 'beta'
+    PRE   = nil # 'beta'
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
   end

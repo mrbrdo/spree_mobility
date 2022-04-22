@@ -20,3 +20,4 @@ public/spree
 .ruby-gemset
 .bundle
 gemfiles/*.gemfile.lock
+/*.gem

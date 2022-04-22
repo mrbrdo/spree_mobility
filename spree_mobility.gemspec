@@ -8,12 +8,12 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_mobility'
   s.version     = SpreeMobility.version
-  s.summary     = 'Provides globalization features for Spreecommerce.'
-  s.description = s.summary
+  s.summary     = 'Better model translation for Spree'
+  s.description = 'Provides model translation, localization, globalization features for Spreecommerce. Based on the Mobility gem, successor of Globalize.'
 
-  s.author      = 'Sean Schofield'
-  s.email       = 'sean.schofield@gmail.com'
-  s.homepage    = 'http://spreecommerce.com'
+  s.author      = 'Jan Berdajs'
+  s.email       = 'mrbrdo@mrbrdo.net'
+  s.homepage    = 'https://github.com/mrbrdo'
   s.license     = 'BSD-3'
 
   s.files        = `git ls-files`.split("\n")
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  spree_version =  '>= 4.2.0.rc5', '< 5.0'
+  spree_version =  '>= 4.3.0', '< 5.0'
   s.add_dependency 'spree_core', spree_version
   s.add_runtime_dependency 'spree_extension'
   s.add_runtime_dependency 'friendly_id-mobility'
