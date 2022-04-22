@@ -4,22 +4,7 @@ This is a Spree model translation gem based on `spree_globalize` for [Spree Comm
 It uses `mobility` instead of `globalize`, since `globalize` is not actively developed anymore.
 It is a drop-in replacement for `spree_globalize` and will use your existing translations.
 
-## Improvements
-
-This gem offers several improvements over `spree_globalize`:
-
-* Proper translation fallbacks support (if a translation for the current locale is missing, it will fallback to other locales, strictly based on configured fallbacks):
-  * for finders (slug/permalink)
-  * when searching by product name (frontend & admin search)
-* Proper validations on translation models (e.g. slug presence validation), also meaning uniqueness validations will now work correctly per-locale
-* Better support for future versions of Rails as `mobility` is more actively maintained
-
-Admin:
-
-* Rich-text editor for product description translations in admin (if enabled)
-* Searching by product SKU in admin
-* Admin product search will no longer return duplicate results
-* Works correctly if using custom Spree.admin_path config
+Currently, this gem is tested with Spree 4.3.1.
 
 ## Installation
 
@@ -38,16 +23,9 @@ your app spree manifest file.
 
     rails g spree_mobility:install
 
-This will insert these lines into your spree manifest files:
-
-```
-vendor/assets/javascripts/spree/backend/all.js
-//= require spree/backend/spree_mobility
-```
-
 It is also recommended to configure Mobility fallback locales, especially if your admin locale is not the same as your Store's default_locale. For example if you have en and de locale:
 
-```
+```ruby
 # config/initializers/mobility.rb
 Mobility.configure do
   plugins do
@@ -57,6 +35,24 @@ end
 ```
 
 ---
+
+## Improvements over spree_globalize
+
+This gem offers several improvements over `spree_globalize`:
+
+* Proper translation fallbacks support (if a translation for the current locale is missing, it will fallback to other locales, strictly based on configured fallbacks):
+  * for finders (slug/permalink)
+  * when searching by product name (frontend & admin search)
+* Proper validations on translation models (e.g. slug presence validation), also meaning uniqueness validations will now work correctly per-locale
+* Better support for future versions of Rails as `mobility` is more actively maintained
+
+Admin:
+
+* Rich-text editor for product description translations in admin (if enabled)
+* Searching by product SKU in admin
+* Admin product search will no longer return duplicate results
+* Works correctly if using custom Spree.admin_path config
+
 
 ## Model Translations
 
