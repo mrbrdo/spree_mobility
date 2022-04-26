@@ -4,12 +4,9 @@ module SpreeMobility::CoreExt::Spree
 
     module ClassMethods
       def search_by_name(query)
-        helper = SpreeMobility::TranslationQuery.new(all.model.mobility_backend_class(:name))
-
-        helper.add_joins(self.all).
-        where("LOWER(#{helper.col_name(:name)}) LIKE LOWER(:query)", query: "%#{query}%").distinct
+        like_any([:name], [query]).distinct
       end
-    
+
       def like_any(fields, values)
         mobility_fields = fields.select { |field| mobility_attributes.include?(field.to_s) }
         other_fields = fields - mobility_fields
@@ -23,7 +20,7 @@ module SpreeMobility::CoreExt::Spree
         conditions += other_fields.product(values).map do |(field, value)|
           arel_table[field].matches("%#{value}%").to_sql
         end
-        
+
         # Allow further adding/modification of conditions
         conditions = yield(conditions) if block_given?
 
@@ -35,7 +32,7 @@ module SpreeMobility::CoreExt::Spree
       base.include SpreeMobility::Translatable
       SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
       base.friendly_id :slug_candidates, use: [:history, :mobility]
-  
+
       base.translation_class.class_eval do
         acts_as_paranoid
         after_destroy :punch_slug
