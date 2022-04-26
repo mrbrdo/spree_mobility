@@ -19,9 +19,15 @@ module SpreeMobility::CoreExt::Spree
           sanitize_sql_array(["LOWER(#{helper.col_name(field)}) LIKE LOWER(?)", "%#{value}%"])
         end
 
-        scope = other_fields.empty? ? self.all : super(other_fields, values)
+        # From original like_any method
+        conditions += other_fields.product(values).map do |(field, value)|
+          arel_table[field].matches("%#{value}%").to_sql
+        end
+        
+        # Allow further adding/modification of conditions
+        conditions = yield(conditions) if block_given?
 
-        helper.add_joins(scope).where(conditions.join(' OR '))
+        helper.add_joins(self.all).where(conditions.join(' OR '))
       end
     end
 
