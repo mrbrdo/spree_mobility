@@ -49,10 +49,10 @@ This gem offers several improvements over `spree_globalize`:
 Admin:
 
 * Rich-text editor for product description translations in admin (if enabled)
-* Searching by product SKU in admin
 * Admin product search will no longer return duplicate results
 * Works correctly if using custom Spree.admin_path config
 
+For more localization features, see my `better_spree_localization` gem.
 
 ## Model Translations
 
