@@ -9,17 +9,17 @@ module SpreeMobility::CoreExt::Spree::TaxonomyDecorator
         where(store_id: translated_model.store_id).
         joins(:translations).
         where(spree_taxonomy_translations: { locale: locale }).
-        where('LOWER(spree_taxonomy_translations.name) = LOWER(?)', name)
+        where('LOWER(spree_taxonomy_translations.name) = ?', name.downcase)
       if check_scope.exists?
         errors.add(:name, :taken, value: name)
       end
     end
   end
-  
+
   def self.prepended(base)
     base.include SpreeMobility::Translatable
     SpreeMobility.translates_for base, :name
-    
+
     base.translation_class.class_eval do
       include TranslationMethods
       validates :name, presence: true

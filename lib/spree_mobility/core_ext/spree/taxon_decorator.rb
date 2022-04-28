@@ -10,12 +10,12 @@ module SpreeMobility::CoreExt::Spree::TaxonDecorator
           taxonomy_id: translated_model.taxonomy_id).
         joins(:translations).
         where(spree_taxon_translations: { locale: locale }).
-        where('LOWER(spree_taxon_translations.permalink) = LOWER(?)', permalink)
+        where('LOWER(spree_taxon_translations.permalink) = ?', permalink.downcase)
       if check_scope.exists?
         errors.add(:permalink, :taken, value: permalink)
       end
     end
-    
+
     def name_uniqueness_validation
       return unless name.present?
       return unless translated_model
@@ -26,7 +26,7 @@ module SpreeMobility::CoreExt::Spree::TaxonDecorator
           taxonomy_id: translated_model.taxonomy_id).
         joins(:translations).
         where(spree_taxon_translations: { locale: locale }).
-        where('LOWER(spree_taxon_translations.name) = LOWER(?)', name)
+        where('LOWER(spree_taxon_translations.name) = ?', name.downcase)
       if check_scope.exists?
         errors.add(:name, :taken, value: name)
       end
@@ -38,7 +38,7 @@ module SpreeMobility::CoreExt::Spree::TaxonDecorator
     SpreeMobility.translates_for base, :name, :description, :meta_title,
       :meta_description, :meta_keywords, :permalink
     base.friendly_id :permalink, slug_column: :permalink, use: [:history, :mobility]
-    
+
     base.translation_class.class_eval do
       include TranslationMethods
       validates :name, presence: true

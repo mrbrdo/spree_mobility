@@ -10,9 +10,9 @@ Rails.application.config.to_prepare do
 
   module SpreeMobilityAdminStoreSearch
     def load_stores_by_query
-      @stores = 
-        stores_scope.joins(:translations).where("LOWER(#{Spree::Store::Translation.table_name}.name) LIKE LOWER(:query)",
-                                                query: "%#{params[:q]}%")
+      @stores =
+        stores_scope.joins(:translations).where("LOWER(#{Spree::Store::Translation.table_name}.name) LIKE ?",
+                                                "%#{params[:q]&.downcase}%")
     end
   end
   Spree::Admin::StoresController.prepend SpreeMobilityAdminStoreSearch

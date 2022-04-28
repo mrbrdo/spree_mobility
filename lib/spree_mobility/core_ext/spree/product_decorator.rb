@@ -13,7 +13,7 @@ module SpreeMobility::CoreExt::Spree
 
         helper = SpreeMobility::TranslationQuery.new(all.model.mobility_backend_class(:name))
         conditions = mobility_fields.product(values).map do |(field, value)|
-          sanitize_sql_array(["LOWER(#{helper.col_name(field)}) LIKE LOWER(?)", "%#{value}%"])
+          sanitize_sql_array(["LOWER(#{helper.col_name(field)}) LIKE ?", "%#{value&.downcase}%"])
         end
 
         # From original like_any method
