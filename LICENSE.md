@@ -1,4 +1,4 @@
-Copyright (c) 2011-2015 Spree Commerce Inc., and other contributors.
+Copyright (c) 2022 mrbrdo, Spree Commerce Inc., and other contributors.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
