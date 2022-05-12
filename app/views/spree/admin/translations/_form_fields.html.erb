@@ -16,9 +16,9 @@
           <div class="panel-body">
             <% field_type = @resource.class.translation_class.columns_hash[attr.to_s].type %>
             <% if @resource.kind_of?(Spree::Product) && attr.to_sym == :description %>
-              <%= g.text_area :description, { rows: "30", class: "form-control #{"spree-rte" if Spree::Config[:product_wysiwyg_editor_enabled] }" } %>
+              <%= g.text_area :description, { rows: "30", class: "form-control #{"spree-rte" if SpreeMobility.product_wysiwyg_editor_enabled? }" } %>
             <% elsif @resource.kind_of?(Spree::Taxon) && attr.to_sym == :description %>
-              <%= g.text_area :description, { rows: "30", class: "form-control #{"spree-rte" if Spree::Config[:taxon_wysiwyg_editor_enabled] }" } %>
+              <%= g.text_area :description, { rows: "30", class: "form-control #{"spree-rte" if SpreeMobility.taxon_wysiwyg_editor_enabled? }" } %>
             <% elsif field_type == :text %>
               <%= g.text_area attr, class: 'form-control', rows: 4 %>
             <% else %>

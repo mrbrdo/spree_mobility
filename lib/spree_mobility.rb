@@ -9,13 +9,13 @@ module SpreeMobility
   def self.prepend_once(to_klass, klass)
     to_klass.prepend(klass) unless to_klass.ancestors.include?(klass)
   end
-  
+
   def self.clear_validations_for(klass, *attrs)
     attrs.each do |attr|
       klass.validators_on(attr).each { |val| val.attributes.delete(attr) }
     end
   end
-  
+
   def self.translates_for(klass, *attrs)
     klass.translates(*attrs)
     klass.accepts_nested_attributes_for :translations
@@ -43,5 +43,21 @@ module SpreeMobility
     rescue KeyError # backend not found
     end
     result
+  end
+
+  def self.product_wysiwyg_editor_enabled?
+    spree_backend_config :product_wysiwyg_editor_enabled
+  end
+
+  def self.taxon_wysiwyg_editor_enabled?
+    spree_backend_config :taxon_wysiwyg_editor_enabled
+  end
+
+  def self.spree_backend_config(key)
+    if defined?(Spree::Backend::Config) && Spree::Backend::Config.has_preference?(key)
+      Spree::Backend::Config[key]
+    else
+      Spree::Config[key]
+    end
   end
 end
