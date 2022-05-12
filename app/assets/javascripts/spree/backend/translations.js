@@ -1,4 +1,4 @@
-document.addEventListener("spree:load", function () {
+$(document).on("spree:load ready", function () {
   var display_locale_fields;
 
   display_locale_fields = function() {

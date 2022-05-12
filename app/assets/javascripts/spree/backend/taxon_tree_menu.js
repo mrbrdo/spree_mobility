@@ -1,4 +1,4 @@
-document.addEventListener("spree:load", function () {
+$(document).on("spree:load ready", function () {
   var root;
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
