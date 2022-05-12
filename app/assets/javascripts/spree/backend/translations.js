@@ -1,4 +1,4 @@
-(function() {
+document.addEventListener("spree:load", function () {
   var display_locale_fields;
 
   display_locale_fields = function() {
@@ -47,4 +47,4 @@
     });
   });
 
-}).call(this);
+});
