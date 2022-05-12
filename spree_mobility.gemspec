@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.author      = 'Jan Berdajs'
   s.email       = 'mrbrdo@mrbrdo.net'
   s.homepage    = 'https://github.com/mrbrdo'
-  s.license     = 'BSD-3'
+  s.license     = 'BSD-3-Clause'
 
   s.files        = `git ls-files`.split("\n")
   s.test_files   = `git ls-files -- spec/*`.split("\n")
