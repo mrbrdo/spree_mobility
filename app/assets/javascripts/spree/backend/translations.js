@@ -1,4 +1,4 @@
-$(document).on("spree:load ready", function () {
+Spree.ready(function() {
   var display_locale_fields;
 
   display_locale_fields = function() {
