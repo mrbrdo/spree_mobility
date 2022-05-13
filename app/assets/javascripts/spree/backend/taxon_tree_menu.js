@@ -1,4 +1,4 @@
-$(document).on("spree:load ready", function () {
+Spree.ready(function () {
   var root;
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
