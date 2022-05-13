@@ -4,7 +4,7 @@ This is a Spree model translation gem based on `spree_globalize` for [Spree Comm
 It uses `mobility` instead of `globalize`, since `globalize` is not actively developed anymore.
 It is a drop-in replacement for `spree_globalize` and will use your existing translations.
 
-Currently, this gem is tested with Spree 4.3.1.
+Currently, this gem is tested with Spree 4.3.1. Since version 1.3, it should also work with Spree 4.4.
 
 ## Installation
 
