@@ -59,7 +59,7 @@ For more localization features, see my `better_spree_localization` gem.
 This feature uses the [Mobility][3] gem to localize model data.
 So far the following models are translatable:
 
-    Product, Promotion, OptionType, Taxonomy, Taxon, Property, Store and ShippingMethod.
+    Product, Promotion, OptionType, Taxonomy, Taxon, Property, Store, ShippingMethod and PaymentMethod.
 
 Start your server and you should see a TRANSLATIONS link or a flag icon on each
 admin section that supports this feature.

@@ -1,0 +1,21 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:editing_resource, resource: Spree::PaymentMethod.model_name.human) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:back_to_resource_list, resource: Spree::PaymentMethod.model_name.human), spree.admin_payment_methods_path, class: 'btn-primary', :icon => 'arrow-left' %>
+<% end %>
+
+<%= render 'settings' %>
+
+<div class="row translations">
+  <div class="col-md-4">
+    <%= render 'fields', resource_class: Spree::PaymentMethod %>
+  </div>
+  <div class="col-md-8">
+    <%= form_for [:admin, @resource], url: admin_translate_payment_method_path(@resource), as: :payment_method do |f| %>
+      <%= render 'form_fields', f: f, resource_class: Spree::PaymentMethod %>
+      <%= render 'spree/admin/shared/edit_resource_links' %>
+    <% end %>
+  </div>
+</div>

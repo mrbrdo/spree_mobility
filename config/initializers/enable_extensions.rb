@@ -16,10 +16,10 @@ Rails.application.config.to_prepare do
   SpreeMobility.prepend_once(::Spree::Promotion, SpreeMobility::CoreExt::Spree::PromotionDecorator)
   SpreeMobility.prepend_once(::Spree::Property, SpreeMobility::CoreExt::Spree::PropertyDecorator)
   SpreeMobility.prepend_once(::Spree::ShippingMethod, SpreeMobility::CoreExt::Spree::ShippingMethodDecorator)
+  SpreeMobility.prepend_once(::Spree::PaymentMethod, SpreeMobility::CoreExt::Spree::PaymentMethodDecorator)
   SpreeMobility.prepend_once(::Spree::Store, SpreeMobility::CoreExt::Spree::StoreDecorator)
   SpreeMobility.prepend_once(::Spree::Taxon, SpreeMobility::CoreExt::Spree::TaxonDecorator)
   SpreeMobility.prepend_once(::Spree::Taxonomy, SpreeMobility::CoreExt::Spree::TaxonomyDecorator)
   SpreeMobility.prepend_once(::Spree::Variant.singleton_class, SpreeMobility::CoreExt::Spree::VariantDecorator::ClassMethods)
   SpreeMobility.prepend_once(::Spree::Products::Find, SpreeMobility::CoreExt::Spree::Products::FindWithMobilityDecorator)
 end
-  

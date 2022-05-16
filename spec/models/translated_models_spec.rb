@@ -30,4 +30,8 @@ module Spree
   RSpec.describe Spree::ShippingMethod, type: :model do
     include_context 'behaves as translatable'
   end
+
+  RSpec.describe Spree::PaymentMethod, type: :model do
+    include_context 'behaves as translatable'
+  end
 end
