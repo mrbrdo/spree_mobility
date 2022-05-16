@@ -40,11 +40,14 @@ end
 
 ## Spree 4.3.x
 
-It seems there is a bug in spree_backend v4.3.x (before v4.4), which prevents translation links working correctly.
+There is a bug with `Spree.ready` in Spree 4.3.x, as it hooks into Turbolinks,
+but Turbolinks is not used in the backend. Due to this some translation links in
+the admin won't work out of the box.
 To fix this, add to the bottom of `vendor/assets/javascripts/spree/backend/all.js`:
 
 ```ruby
-$(document).trigger('page:load');
+# vendor/assets/javascripts/spree/backend/all.js
+$(window).on('load', function() { $(document).trigger('page:load'); });
 ```
 
 ---
