@@ -6,6 +6,10 @@ It is a drop-in replacement for `spree_globalize` and will use your existing tra
 
 Currently, this gem is tested with Spree 4.3.1. Since version 1.3, it should also work with Spree 4.4.
 
+## Upgrading
+
+Re-run `rails g spree_mobility:install` to add new migrations.
+
 ## Installation
 
 Add the following to your `Gemfile`:
