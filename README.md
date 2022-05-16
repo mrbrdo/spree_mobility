@@ -34,6 +34,15 @@ Mobility.configure do
 end
 ```
 
+## Spree 4.3.x
+
+It seems there is a bug in spree_backend v4.3.x (before v4.4), which prevents translation links working correctly.
+To fix this, add to the bottom of `vendor/assets/javascripts/spree/backend/all.js`:
+
+```ruby
+$(document).trigger('page:load');
+```
+
 ---
 
 ## Improvements over spree_globalize
