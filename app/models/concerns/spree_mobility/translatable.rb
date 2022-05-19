@@ -6,6 +6,10 @@ module SpreeMobility
 
     included do |klass|
       klass.send :extend, Mobility
+      # define the i18n scope to prevent errors when classes are used
+      # before 'translates' is called on the class - i18n scope is only created
+      # upon calling translates.
+      klass.scope :i18n, -> { self }
       klass.send(:default_scope) { i18n }
     end
 
@@ -13,7 +17,7 @@ module SpreeMobility
       def translation_class
         const_get('Translation')
       end
-      
+
       def ransack(params = {}, options = {})
         params ||= {}
         names = params.keys
