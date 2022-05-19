@@ -27,24 +27,26 @@ class AddTranslationsToMainModels < SpreeExtension::Migration[4.2]
                  meta_description: :string, meta_keywords: :string,
                  permalink: :string }
     end
-    
+
     unless table_exists?(:spree_option_value_translations)
       create_helper :spree_option_value, { name: :string, presentation: :string }
     end
-    
+
     unless table_exists?(:spree_product_property_translations)
       create_helper :spree_product_property, { value: :string }
     end
-    
+
     unless table_exists?(:spree_store_translations)
       create_helper :spree_store, { name: :string, meta_description: :text, meta_keywords: :text, seo_title: :string }
     end
-    
+
     unless table_exists?(:spree_shipping_method_translations)
       create_helper :spree_shipping_method, { name: :string }
     end
-    
-    add_column :friendly_id_slugs, :locale, :string
+
+    unless column_exists?(:friendly_id_slugs, :locale)
+      add_column :friendly_id_slugs, :locale, :string
+    end
   end
 
   def down
@@ -60,9 +62,9 @@ class AddTranslationsToMainModels < SpreeExtension::Migration[4.2]
     drop_table :spree_shipping_method_translations
     remove_column :friendly_id_slugs, :locale
   end
-  
+
   protected
-  
+
   def create_helper(table, params)
     create_table :"#{table}_translations" do |t|
 
