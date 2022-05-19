@@ -3,11 +3,13 @@ class RemoveNullConstraintsFromSpreeTables < SpreeExtension::Migration[4.2]
     change_column :spree_properties, :presentation, :string, null: true
     change_column :spree_taxonomies, :name,         :string, null: true
     change_column :spree_taxons,     :name,         :string, null: true
+    change_column :spree_products,   :name,         :string, null: true
   end
 
   def down
     change_column :spree_properties, :presentation, :string, null: false
     change_column :spree_taxonomies, :name,         :string, null: false
     change_column :spree_taxons,     :name,         :string, null: false
+    change_column :spree_products,   :name,         :string, null: false
   end
 end
