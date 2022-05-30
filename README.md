@@ -16,8 +16,8 @@ Add the following to your `Gemfile`:
 
 ```ruby
 gem 'spree_i18n', '~> 5.0'
-gem 'friendly_id-mobility', github: 'mrbrdo/friendly_id-mobility', branch: 'master'
-gem 'mobility', github: 'mrbrdo/mobility', branch: 'mrbrdo'
+gem 'friendly_id-mobility', git: 'https://github.com/mrbrdo/friendly_id-mobility', branch: 'master'
+gem 'mobility', git: 'https://github.com/mrbrdo/mobility', branch: 'mrbrdo'
 gem 'spree_mobility'
 ```
 
