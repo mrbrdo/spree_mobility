@@ -8,14 +8,14 @@ Currently, this gem is tested with Spree 4.3.1. Since version 1.3, it should als
 
 ## Upgrading
 
-Re-run `rails g spree_mobility:install` to add new migrations.
+Re-run `bin/rails g spree_mobility:install` to add new migrations.
 
 ## Installation
 
 Add the following to your `Gemfile`:
 
 ```ruby
-gem 'spree_i18n', '~> 5.0'
+gem 'spree_i18n', '~> 5.0' # remove any existing spree_i18n in Gemfile
 gem 'friendly_id-mobility', git: 'https://github.com/mrbrdo/friendly_id-mobility', branch: 'master'
 gem 'mobility', git: 'https://github.com/mrbrdo/mobility', branch: 'mrbrdo'
 gem 'spree_mobility'
@@ -26,7 +26,7 @@ Run `bundle install`
 You can use the generator to install migrations and append spree_mobility assets to
 your app spree manifest file.
 
-    rails g spree_mobility:install
+    bin/rails g spree_mobility:install
 
 It is also recommended to configure Mobility fallback locales, especially if your admin locale is not the same as your Store's default_locale. For example if you have en and de locale:
 
