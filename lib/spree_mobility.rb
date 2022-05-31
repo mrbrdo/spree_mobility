@@ -21,6 +21,7 @@ module SpreeMobility
     klass.accepts_nested_attributes_for :translations
     klass.whitelisted_ransackable_associations ||= []
     klass.whitelisted_ransackable_associations << 'translations'
+    klass.whitelisted_ransackable_associations.uniq!
     clear_validations_for(klass, *attrs)
 
     # used for preloading only current locale and its fallbacks
@@ -29,7 +30,10 @@ module SpreeMobility
       -> { where(locale: SpreeMobility.locale_with_fallbacks) },
       class_name:  translations_assoc.class_name,
       inverse_of:  translations_assoc.inverse_of.name,
-      foreign_key: translations_assoc.foreign_key
+      foreign_key: translations_assoc.foreign_key,
+      dependent: translations_assoc.options[:dependent],
+      autosave: translations_assoc.options[:autosave],
+      extend: translations_assoc.options[:extend]
   end
 
   def self.locale_with_fallbacks
