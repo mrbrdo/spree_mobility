@@ -11,6 +11,10 @@ module SpreeMobility
       SpreeMobility::Config = SpreeMobility::Configuration.new
     end
 
+    config.to_prepare do
+      SpreeMobility.extend_reloadable_classes
+    end
+
     initializer "spree_mobility.permitted_attributes", before: :load_config_initializers do |app|
       taxon_attributes = { translations_attributes: [:id, :locale, :name, :description, :permalink, :meta_description, :meta_keywords, :meta_title] }
       Spree::PermittedAttributes.taxon_attributes << taxon_attributes
