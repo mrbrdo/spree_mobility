@@ -21,6 +21,8 @@ gem 'mobility', git: 'https://github.com/mrbrdo/mobility', branch: 'mrbrdo'
 gem 'spree_mobility'
 ```
 
+Make sure this gem is **above** any payment method gems and plugins in your Gemfile.
+
 Run `bundle install`
 
 You can use the generator to install migrations and append spree_mobility assets to
