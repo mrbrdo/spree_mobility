@@ -7,6 +7,10 @@ module Spree
     include_context "behaves as translatable"
   end
 
+  RSpec.describe RelationType, type: :model do
+    include_context "behaves as translatable"
+  end
+
   RSpec.describe Taxon, type: :model do
     include_context "behaves as translatable"
   end
