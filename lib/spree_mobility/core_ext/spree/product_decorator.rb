@@ -34,6 +34,19 @@ module SpreeMobility::CoreExt::Spree
       base.friendly_id :slug_candidates, use: [:history, :mobility]
 
       base.translation_class.class_eval do
+        extend FriendlyId
+        friendly_id :name, use: :slugged
+        before_validation :downcase_slug
+        before_validation :normalize_slug, on: :update
+
+        def normalize_slug
+          self.slug = normalize_friendly_id(slug)
+        end
+
+        def downcase_slug
+          slug&.downcase!
+        end
+
         acts_as_paranoid
         after_destroy :punch_slug
         default_scopes = []

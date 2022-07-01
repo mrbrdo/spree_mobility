@@ -40,6 +40,23 @@ module SpreeMobility::CoreExt::Spree::TaxonDecorator
     base.friendly_id :permalink, slug_column: :permalink, use: [:history, :mobility]
 
     base.translation_class.class_eval do
+      extend FriendlyId
+      friendly_id :permalink, slug_column: :permalink, use: :slugged
+      before_validation :set_permalink, on: :create, if: :name
+
+      def set_permalink
+        if spree_taxon_id
+          Mobility.with_locale(locale) do
+            taxon = ::Spree::Taxon.find(spree_taxon_id)
+            if taxon.parent.present?
+              self.permalink = [taxon.parent.permalink, (permalink.blank? ? name.to_url : permalink.split('/').last)].join('/')
+            else
+              self.permalink = name.to_url if permalink.blank?
+            end
+          end
+        end
+      end
+
       include TranslationMethods
       validates :name, presence: true
       validate :name_uniqueness_validation
