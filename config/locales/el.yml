@@ -1,0 +1,6 @@
+en:
+  spree:
+    mobility:
+      locales_displayed_on_translation_forms: Τοπικές ρυθμίσεις που εμφανίζονται στις φόρμες μετάφρασης
+      no_translations_for_criteria: Δεν υπάρχουν μεταφράσεις με τα ζητούμενα κριτήρια
+      store_translations: Μεταφράσεις Καταστήματος
