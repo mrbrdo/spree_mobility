@@ -1,4 +1,4 @@
-class AddTranslationsToCountry < ActiveRecord::Migration[7.0]
+class AddTranslationsToCountry < ActiveRecord::Migration[4.2]
   def up
     unless table_exists?(:spree_country_translations)
       params = { name: :string, description: :text }
