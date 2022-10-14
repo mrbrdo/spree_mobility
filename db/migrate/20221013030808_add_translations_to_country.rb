@@ -1,7 +1,7 @@
 class AddTranslationsToCountry < ActiveRecord::Migration[4.2]
   def up
     unless table_exists?(:spree_country_translations)
-      params = { name: :string, description: :text }
+      params = { name: :string }
       create_translation_table(:spree_country, params)
       migrate_data(Spree::Country, params)
     end
