@@ -40,7 +40,12 @@ class AddTranslationsToCountry < ActiveRecord::Migration[4.2]
     ActiveRecord::Base.connection.execute("SELECT id, #{field_names.join(',')} FROM #{model_klass.table_name}").each do |r|
       field_values =
         field_names.each_with_object([]) do |field_name, a|
-          a << r[field_name.to_s]
+          # In case the timestamps is null
+          if ['created_at', 'updated_at'].include?(field_name) && !r[field_name.to_s]
+            a << Time.now.to_s(:db)
+          else
+            a << r[field_name.to_s]
+          end         
         end
 
       ActiveRecord::Base.connection.execute(ActiveRecord::Base.sanitize_sql_array(["INSERT INTO #{translation_table} (locale, #{foreign_key}, #{field_names.join(',')}) VALUES (?,?,#{(['?'] * field_names.size).join(',')})",
