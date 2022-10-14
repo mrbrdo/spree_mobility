@@ -13,7 +13,7 @@ module Spree
       end
 
       def permitted_params
-      [translations_attributes: [:id, :locale, :value]]
+        [translations_attributes: [:id, :locale, :value]]
       end
     end
   end

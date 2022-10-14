@@ -1,7 +1,5 @@
 module SpreeMobility::CoreExt::Spree
   module ProductDecorator
-
-
     module ClassMethods
       def search_by_name(query)
         like_any([:name], [query]).distinct
