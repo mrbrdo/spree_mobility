@@ -31,7 +31,7 @@ class AddTranslationsToState < ActiveRecord::Migration[4.2]
     store = Spree::Store.unscoped.first
     return unless store
     default_locale = store.default_locale.to_s
-    field_names = fields.keys
+    field_names = fields.keys + ['created_at', 'updated_at']
     translation_table = "#{model_klass.table_name.singularize}_translations"
     foreign_key = "#{model_klass.table_name.singularize}_id"
 
@@ -41,11 +41,11 @@ class AddTranslationsToState < ActiveRecord::Migration[4.2]
       field_values =
         field_names.each_with_object([]) do |field_name, a|
           # In case the timestamps is null
-          if ['created_at', 'updated_at'].include?(field_name) && !r[field_name.to_s]
+          if ['created_at', 'updated_at'].include?(field_name.to_s) && !r[field_name.to_s]
             a << Time.now.to_s(:db)
           else
             a << r[field_name.to_s]
-          end         
+          end
         end
 
       ActiveRecord::Base.connection.execute(ActiveRecord::Base.sanitize_sql_array(["INSERT INTO #{translation_table} (locale, #{foreign_key}, #{field_names.join(',')}) VALUES (?,?,#{(['?'] * field_names.size).join(',')})",
