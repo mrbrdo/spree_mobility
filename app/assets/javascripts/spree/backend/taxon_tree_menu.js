@@ -1,3 +1,4 @@
+// This is only needed for Spree 4.3.x and older
 Spree.ready(function () {
   var root;
 
