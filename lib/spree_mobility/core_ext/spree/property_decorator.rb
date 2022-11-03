@@ -2,7 +2,7 @@ module SpreeMobility::CoreExt::Spree::PropertyDecorator
   def self.prepended(base)
     base.include SpreeMobility::Translatable
     SpreeMobility.translates_for base, :name, :presentation
-    
+
     base.translation_class.class_eval do
       validates :name, :presentation, presence: true
     end
@@ -16,10 +16,10 @@ module SpreeMobility::CoreExt::Spree::PropertyDecorator
     with_uniq_values_cache_key(product_properties_scope) do
       properties = product_properties
       properties = properties.where(id: product_properties_scope) if product_properties_scope.present?
-      
+
       filter_params_scope = properties.reorder(nil).group(:filter_param).select(::Arel.sql('MAX(id)'))
       properties.where(id: filter_params_scope).
-      includes(:translations).sort_by(&:value).
+      includes(:translations).sort_by { |prop| prop.value || 'z' }.
       map { |property| [property.filter_param, property.value] }
     end
   end
