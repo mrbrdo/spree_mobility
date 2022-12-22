@@ -1,5 +1,6 @@
 require 'mobility'
 require 'friendly_id/mobility'
+require 'spree_api_v1'
 
 module SpreeMobility
   class Engine < Rails::Engine

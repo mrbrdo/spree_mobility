@@ -21,8 +21,9 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  spree_version =  '>= 4.3.0', '< 5.0'
-  s.add_dependency 'spree_core', spree_version
+  spree_version =  '>= 4.5.0', '< 5.0'
+  s.add_runtime_dependency 'spree_core', spree_version
+  s.add_runtime_dependency 'spree_api_v1', '>= 4.5.0'
   s.add_runtime_dependency 'spree_extension'
   s.add_runtime_dependency 'friendly_id-mobility'
   s.add_runtime_dependency 'mobility'
@@ -30,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'i18n_data'
   s.add_runtime_dependency 'rails-i18n'
   s.add_runtime_dependency 'kaminari-i18n'
-  s.add_dependency 'deface', '~> 1.0'
+  s.add_runtime_dependency 'deface', '~> 1.0'
 
   s.add_development_dependency 'acts_as_paranoid'
   s.add_development_dependency 'spree_dev_tools'
