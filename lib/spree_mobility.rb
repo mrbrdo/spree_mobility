@@ -83,5 +83,21 @@ module SpreeMobility
     SpreeMobility.prepend_once(::Spree::Taxonomy, SpreeMobility::CoreExt::Spree::TaxonomyDecorator)
     SpreeMobility.prepend_once(::Spree::Variant.singleton_class, SpreeMobility::CoreExt::Spree::VariantDecorator::ClassMethods)
     SpreeMobility.prepend_once(::Spree::Products::Find, SpreeMobility::CoreExt::Spree::Products::FindWithMobilityDecorator)
+
+    ::Spree::Admin::TaxonomiesController.send :include, ::Spree::Admin::Translatable
+    
+    ::Spree::Country::TRANSLATABLE_FIELDS ||= %i[name].freeze
+    ::Spree::Country.class_eval do
+      include ::Spree::TranslatableResource
+  
+      # translates(*TRANSLATABLE_FIELDS)
+    end
+
+    ::Spree::State::TRANSLATABLE_FIELDS ||= %i[name abbr].freeze
+    ::Spree::State.class_eval do
+      include ::Spree::TranslatableResource
+  
+      # translates(*TRANSLATABLE_FIELDS)
+    end
   end
 end

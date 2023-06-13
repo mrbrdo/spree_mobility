@@ -35,8 +35,8 @@ module SpreeMobility::CoreExt::Spree::TaxonDecorator
 
   def self.prepended(base)
     base.include SpreeMobility::Translatable
-    SpreeMobility.translates_for base, :name, :description, :meta_title,
-      :meta_description, :meta_keywords, :permalink
+    SpreeMobility.translates_for base, :meta_title,
+      :meta_description, :meta_keywords, *base::TRANSLATABLE_FIELDS
     base.friendly_id :permalink, slug_column: :permalink, use: [:history, :mobility]
 
     base.translation_class.class_eval do

@@ -25,8 +25,7 @@ Make sure this gem is **above** any payment method gems and plugins in your Gemf
 
 Run `bundle install`
 
-You can use the generator to install migrations and append spree_mobility assets to
-your app spree manifest file.
+You can use the generator to install migrations.
 
     bin/rails g spree_mobility:install
 
@@ -39,18 +38,6 @@ Mobility.configure do
     fallbacks({ :en => [:de], :de => [:en] })
   end
 end
-```
-
-## Spree 4.3.x
-
-There is a bug with `Spree.ready` in Spree 4.3.x, as it hooks into Turbolinks,
-but Turbolinks is not used in the backend. Due to this some translation links in
-the admin won't work out of the box.
-To fix this, add to the bottom of `vendor/assets/javascripts/spree/backend/all.js`:
-
-```ruby
-# vendor/assets/javascripts/spree/backend/all.js
-$(window).on('load', function() { $(document).trigger('page:load'); });
 ```
 
 ---

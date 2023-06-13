@@ -28,8 +28,7 @@ module SpreeMobility::CoreExt::Spree
 
     def self.prepended(base)
       base.include SpreeMobility::Translatable
-      SpreeMobility.translates_for base, :name, :description, :meta_title, :meta_description, :meta_keywords, :slug
-      base.friendly_id :slug_candidates, use: [:history, :mobility]
+      SpreeMobility.translates_for base, *base::TRANSLATABLE_FIELDS
 
       base.translation_class.class_eval do
         extend FriendlyId
@@ -74,13 +73,10 @@ module SpreeMobility::CoreExt::Spree
       duplicate_translations(old_product)
     end
 
-    def property(property_name)
-      product_properties.joins(:property).find_by(spree_properties: { id: ::Spree::Property.find_by(name: property_name) }).try(:value)
-    end
-
     private
 
     def duplicate_translations(old_product)
+      # Spree 4.6.0 does some of this, but not all
       self.translations.clear
       old_product.translations.each do |translation|
         translation.slug = nil # slug must be regenerated

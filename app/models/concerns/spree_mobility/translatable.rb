@@ -4,13 +4,12 @@ module SpreeMobility
 
     include Spree::RansackableAttributes
 
-    included do |klass|
-      klass.send :extend, Mobility
+    included do
+      include Spree::TranslatableResource
       # define the i18n scope to prevent errors when classes are used
       # before 'translates' is called on the class - i18n scope is only created
       # upon calling translates.
-      klass.scope :i18n, -> { self }
-      klass.send(:default_scope) { i18n }
+      scope :i18n, -> { self }
     end
 
     class_methods do

@@ -18,13 +18,11 @@ module SpreeMobility::CoreExt::Spree::OptionValueDecorator
 
   def self.prepended(base)
     base.include SpreeMobility::Translatable
-    SpreeMobility.translates_for base, :name, :presentation
+    SpreeMobility.translates_for base, *base::TRANSLATABLE_FIELDS
 
     base.translation_class.class_eval do
       include TranslationMethods
       validate :name_uniqueness_validation
-      validates :name, presence: true
-      validates :presentation, presence: true
     end
   end
 end
