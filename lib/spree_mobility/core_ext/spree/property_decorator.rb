@@ -17,7 +17,7 @@ module SpreeMobility::CoreExt::Spree::PropertyDecorator
       properties = product_properties
       properties = properties.where(id: product_properties_scope) if product_properties_scope.present?
 
-      filter_params_scope = properties.reorder(nil).group(:filter_param).select(::Arel.sql('MAX(id)'))
+      filter_params_scope = properties.reorder(nil).group(:filter_param).select(::Arel.sql('MAX(spree_product_properties.id)'))
       properties.where(id: filter_params_scope).
       includes(:translations).sort_by { |prop| prop.value || 'z' }.
       map { |property| [property.filter_param, property.value] }
