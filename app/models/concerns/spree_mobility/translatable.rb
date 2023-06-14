@@ -2,8 +2,6 @@ module SpreeMobility
   module Translatable
     extend ActiveSupport::Concern
 
-    include Spree::RansackableAttributes
-
     included do
       include Spree::TranslatableResource
       # define the i18n scope to prevent errors when classes are used
