@@ -77,7 +77,6 @@ module SpreeMobility
     SpreeMobility.prepend_once(::Spree::Property, SpreeMobility::CoreExt::Spree::PropertyDecorator)
     SpreeMobility.prepend_once(::Spree::ShippingMethod, SpreeMobility::CoreExt::Spree::ShippingMethodDecorator)
     SpreeMobility.prepend_once(::Spree::PaymentMethod, SpreeMobility::CoreExt::Spree::PaymentMethodDecorator)
-    SpreeMobility.prepend_once(::Spree::State, SpreeMobility::CoreExt::Spree::StateDecorator)
     SpreeMobility.prepend_once(::Spree::Store, SpreeMobility::CoreExt::Spree::StoreDecorator)
     SpreeMobility.prepend_once(::Spree::Taxon, SpreeMobility::CoreExt::Spree::TaxonDecorator)
     SpreeMobility.prepend_once(::Spree::Taxonomy, SpreeMobility::CoreExt::Spree::TaxonomyDecorator)
@@ -88,13 +87,6 @@ module SpreeMobility
     
     ::Spree::Country::TRANSLATABLE_FIELDS ||= %i[name].freeze
     ::Spree::Country.class_eval do
-      include ::Spree::TranslatableResource
-  
-      # translates(*TRANSLATABLE_FIELDS)
-    end
-
-    ::Spree::State::TRANSLATABLE_FIELDS ||= %i[name abbr].freeze
-    ::Spree::State.class_eval do
       include ::Spree::TranslatableResource
   
       # translates(*TRANSLATABLE_FIELDS)
