@@ -3,10 +3,6 @@ module SpreeMobility
     class InstallGenerator < Rails::Generators::Base
       class_option :migrate, type: :boolean, default: true
 
-      def add_javascripts
-        append_file "vendor/assets/javascripts/spree/backend/all.js", "//= require spree/backend/spree_mobility\n"
-			end
-
       def add_migrations
         run 'bundle exec rake spree_mobility:install:migrations'
       end

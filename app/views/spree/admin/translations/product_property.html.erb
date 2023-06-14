@@ -6,20 +6,4 @@
   <%= button_link_to Spree.t(:back_to_resource_list, resource: Spree::ProductProperty.model_name.human), spree.admin_product_product_properties_path(@product_property.product), class: 'btn-primary', icon: 'icon-arrow-left' %>
 <% end %>
 
-<%= render 'settings' %>
-
-<div class="row translations">
-  <div class="col-md-4">
-    <%= render 'fields' %>
-  </div>
-  <div class="col-md-8">
-    <%= form_for [:admin, @resource.product, @resource], method: :patch do |f| %>
-      <%= render 'form_fields', f: f %>
-      <div class="form-actions" data-hook="buttons">
-        <%= button Spree.t(:update), 'update' %>
-        <span class="or"><%= Spree.t(:or) %></span>
-        <%= button_link_to Spree.t(:cancel), spree.admin_product_product_properties_path(@product_property.product), icon: 'remove' %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render 'translations_form' %>

@@ -13,6 +13,19 @@ module Spree
       render resource_name
     end
 
+    def update
+      params[:translation].each_pair do |attribute, data|
+        data.each_pair do |locale, value|
+          I18n.with_locale(locale) do
+            resource.public_send("#{attribute}=", value)
+            resource.save!
+          end
+        end
+      end
+
+      redirect_to url_for(:controller => "translations", :action => "index")
+    end
+
     private
 
     def load_parent

@@ -1,0 +1,17 @@
+<% resource_class ||= @resource.class %>
+<% if current_store.supported_locales_list.size > 1 %>
+  <div data-hook="translations_form">
+    <%= form_tag nil, { class: 'form-horizontal' } do %>
+      <div class="my-3">
+        <%= render 'spree/admin/translations/translation_table', resource: @resource, resource_class: resource_class %>
+      </div>
+      <div class="form-actions" data-hook="buttons">
+        <%= button Spree.t('actions.update'), 'update.svg' %>
+        <span class="or"><%= Spree.t(:or) %></span>
+        <%= button_link_to Spree.t('actions.cancel'), request.env["HTTP_REFERER"], icon: 'delete.svg' %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <%= render partial: 'spree/admin/translations/translations_unavailable' %>
+<% end %>

@@ -12,7 +12,7 @@
       </tr>
       </thead>
       <tbody id="translations_body" data-hook="translations_body">
-        <% resource.class.translatable_fields.each do |field| %>
+        <% resource_class.translatable_fields.each do |field| %>
           <tr id="translates_field_row" data-hook="translates_field_row">
             <td class="text-left" style="min-width: 12.5rem; position: absolute; background-color: white; height: 3.5rem">
               <span><%= Spree.t(field) %></span>
@@ -20,7 +20,7 @@
             <td style="min-width: 12.5rem; display: block; height: 100%"></td>
             <% locales.each do |locale| %>
               <td style="height: 3.5rem">
-                <% field_type = resource.class.translation_class.columns_hash[field.to_s].type %>
+                <% field_type = resource_class.translation_class.columns_hash[field.to_s].type %>
                 <% if resource.kind_of?(Spree::Product) && field.to_sym == :description %>
                   <%= text_field_tag "translation[#{field}][#{locale}]", resource.get_field_with_locale(locale, field), { rows: "30", class: "form-control #{"spree-rte" if SpreeMobility.product_wysiwyg_editor_enabled? }" } %>
                 <% elsif resource.kind_of?(Spree::Taxon) && field.to_sym == :description %>

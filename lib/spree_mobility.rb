@@ -18,7 +18,6 @@ module SpreeMobility
 
   def self.translates_for(klass, *attrs)
     klass.translates(*attrs)
-    klass.accepts_nested_attributes_for :translations
     clear_validations_for(klass, *attrs)
 
     # used for preloading only current locale and its fallbacks
@@ -81,12 +80,5 @@ module SpreeMobility
     SpreeMobility.prepend_once(::Spree::Products::Find, SpreeMobility::CoreExt::Spree::Products::FindWithMobilityDecorator)
 
     ::Spree::Admin::TaxonomiesController.send :include, ::Spree::Admin::Translatable
-    
-    ::Spree::Country::TRANSLATABLE_FIELDS ||= %i[name].freeze
-    ::Spree::Country.class_eval do
-      include ::Spree::TranslatableResource
-  
-      # translates(*TRANSLATABLE_FIELDS)
-    end
   end
 end
