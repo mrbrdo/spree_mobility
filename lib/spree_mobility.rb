@@ -19,9 +19,6 @@ module SpreeMobility
   def self.translates_for(klass, *attrs)
     klass.translates(*attrs)
     klass.accepts_nested_attributes_for :translations
-    klass.whitelisted_ransackable_associations ||= []
-    klass.whitelisted_ransackable_associations << 'translations'
-    klass.whitelisted_ransackable_associations.uniq!
     clear_validations_for(klass, *attrs)
 
     # used for preloading only current locale and its fallbacks

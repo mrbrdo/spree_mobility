@@ -9,33 +9,13 @@ module SpreeMobility
       # define the i18n scope to prevent errors when classes are used
       # before 'translates' is called on the class - i18n scope is only created
       # upon calling translates.
-      scope :i18n, -> { self }
+      scope :i18n, -> { self } unless respond_to?(:i18n)
     end
 
     class_methods do
       def translation_class
         const_get('Translation')
       end
-
-      def ransack(params = {}, options = {})
-        params ||= {}
-        names = params.keys
-
-        # TODO: this should be used together with search param, only fallback if first is empty
-        # params[:translations_locale_in] ||= fallback_locales.map(&:to_s)
-
-        names.each do |n|
-          mobility_attributes.each do |t|
-            if n.to_s.starts_with? t.to_s
-              params[:"translations_#{n}"] = params[n]
-              params.delete n
-            end
-          end
-        end
-
-        super(params, options)
-      end
-      alias :search :ransack unless respond_to? :search
 
       module CopyPreloadedActiveTranslationsToTranslations
         # Although it has :nodoc, preload_associations is a public method of
