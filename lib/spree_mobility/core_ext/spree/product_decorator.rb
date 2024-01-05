@@ -44,7 +44,7 @@ module SpreeMobility::CoreExt::Spree
           slug&.downcase!
         end
 
-        acts_as_paranoid
+        acts_as_paranoid unless included_modules.include?(Paranoia)
         after_destroy :punch_slug
         default_scopes = []
         validates :slug, presence: true, uniqueness: { scope: :locale, case_sensitive: false }
