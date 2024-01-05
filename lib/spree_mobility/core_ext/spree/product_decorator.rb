@@ -58,11 +58,7 @@ module SpreeMobility::CoreExt::Spree
         end
       end
 
-      if RUBY_VERSION.to_f >= 2.5
-        base.translation_class.define_method(:punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }
-      else
-        base.translation_class.send(:define_method, :punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }
-      end
+      base.translation_class.define_method(:punch_slug) { update(slug: "#{Time.current.to_i}_#{slug}"[0..254]) }
     end
 
     # Don't punch slug on original product as it prevents bulk deletion.
