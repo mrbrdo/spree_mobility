@@ -3,7 +3,7 @@
   <div data-hook="translations_form">
     <%= form_tag nil, { class: 'form-horizontal' } do %>
       <div class="my-3">
-        <%= render 'spree/admin/translations/translation_table', resource: @resource, resource_class: resource_class %>
+        <%= render 'spree/admin/translations/mobility_translation_table', resource: @resource, resource_class: resource_class %>
       </div>
       <div class="form-actions" data-hook="buttons">
         <%= button Spree.t('actions.update'), 'update.svg' %>
