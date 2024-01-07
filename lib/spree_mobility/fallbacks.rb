@@ -19,25 +19,27 @@ module SpreeMobility
     #   # wrong, spanish locale would fallback to german first instead of :en (default)
     #   { en: [:en, :de, :es], es: [:es, :de, :en] .. }
     #
-    def self.config!
-      supported = if Spree::Store.respond_to?(:available_locales) && Spree::Store.available_locales.any?
-                    Spree::Store.available_locales
-                  else
-                    Config.supported_locales
-                  end
-      default = I18n.default_locale.to_s
-
-      fallbacks_map = supported.inject({}) do |fallbacks, locale|
-        if locale == default
-          fallbacks.merge(locale => (supported-[locale]).flatten)
+    def self.get_fallbacks(store = nil)
+      supported =
+        if store
+          store.supported_locales_list
+        elsif Spree::Store.respond_to?(:available_locales) && Spree::Store.available_locales.any?
+          Spree::Store.available_locales
         else
-          fallbacks.merge(locale => [default].push(supported-[locale, default]).flatten)
+          Config.supported_locales
         end
-      end
-      
-      Mobility.configure do
-        plugins do
-          fallbacks fallbacks_map
+      default =
+        if store
+          store.default_locale
+        else
+          I18n.default_locale.to_s
+        end
+
+      supported.each_with_object({}) do |locale, object|
+        if locale == default
+          object[locale] = (supported-[locale]).flatten
+        else
+          object[locale] = [default].push(supported-[locale, default]).flatten
         end
       end
     end

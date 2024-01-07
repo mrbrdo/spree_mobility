@@ -78,7 +78,8 @@ module SpreeMobility
     SpreeMobility.prepend_once(::Spree::Taxonomy, SpreeMobility::CoreExt::Spree::TaxonomyDecorator)
     SpreeMobility.prepend_once(::Spree::Variant.singleton_class, SpreeMobility::CoreExt::Spree::VariantDecorator::ClassMethods)
     SpreeMobility.prepend_once(::Spree::Products::Find, SpreeMobility::CoreExt::Spree::Products::FindWithMobilityDecorator)
-
+    SpreeMobility.prepend_once(::Spree::Locales::SetFallbackLocaleForStore, SpreeMobility::CoreExt::Spree::Locales::SetFallbackLocaleForStoreDecorator)
+    
     ::Spree::Admin::TaxonomiesController.send :include, ::Spree::Admin::Translatable
   end
 end

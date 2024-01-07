@@ -1,3 +1,12 @@
+def setup_mobility_fallbacks!
+  fallbacks_map = SpreeMobility::Fallbacks.get_fallbacks
+  
+  Mobility.configure do
+    plugins do
+      fallbacks fallbacks_map
+    end
+  end
+end
 shared_context "behaves as translatable" do
   testable_attributes = [:name, :value]
   attribute = nil
@@ -29,7 +38,7 @@ shared_context "behaves as translatable" do
       [:es, :en, :de].each do |locale|
         create(:store, default_locale: locale)
       end
-      SpreeMobility::Fallbacks.config!
+      setup_mobility_fallbacks!
 
       model[attribute] = 'produto'
     end
@@ -47,7 +56,7 @@ shared_context "behaves as translatable" do
       [:es, :en, :de].each do |locale|
         create(:store, default_locale: locale)
       end
-      SpreeMobility::Fallbacks.config!
+      setup_mobility_fallbacks!
 
       model[attribute] = 'product'
     end
