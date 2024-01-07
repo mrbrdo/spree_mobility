@@ -26,7 +26,7 @@ module SpreeMobility
         elsif Spree::Store.respond_to?(:available_locales) && Spree::Store.available_locales.any?
           Spree::Store.available_locales
         else
-          Config.supported_locales
+          [:en]
         end
       default =
         if store
