@@ -1,6 +1,9 @@
 module SpreeMobility::CoreExt::Spree::Products::FindWithMobilityDecorator
   private
-  # The issue here is that ordering by translated attr (e.g. name) will add
+
+  # Order by name with support for Mobility fallback locales
+
+  # Additional issue here is that ordering by translated attr (e.g. name) will add
   # an ORDER BY translations_table.name, but the query has a SELECT DISTINCT,
   # which would require the translations_table.name to be added to the SELECT
   # So when the order is added, the appropriate SELECT should be added as well.
