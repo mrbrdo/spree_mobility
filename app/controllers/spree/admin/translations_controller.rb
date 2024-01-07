@@ -5,7 +5,6 @@ module Spree
     if defined?(SpreeI18n::ControllerLocaleHelper)
       helper 'spree_i18n/locale'
     end
-    helper 'spree_mobility/locale'
 
     helper_method :collection_url
 
@@ -18,6 +17,14 @@ module Spree
         data.each_pair do |locale, value|
           I18n.with_locale(locale) do
             resource.public_send("#{attribute}=", value)
+            if resource.kind_of?(::Spree::Taxonomy)
+              # There is a bug with Taxonomy#set_root_taxon_name
+              # after_update hook that would cause an infinite loop
+              class << resource
+                def set_root_taxon_name
+                end
+              end
+            end
             resource.save!
           end
         end
