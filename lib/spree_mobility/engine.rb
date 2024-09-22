@@ -1,9 +1,15 @@
 require 'mobility'
 require 'friendly_id/mobility'
 require 'spree_api_v1'
+require 'spree_mobility/configuration'
+
+dir = File.expand_path("../", __FILE__)
+Dir.glob("#{dir}/core_ext/**/*.rb").sort.each do |fn|
+  require fn
+end
 
 module SpreeMobility
-  class Engine < Rails::Engine
+  class Engine < ::Rails::Engine
     engine_name 'spree_mobility'
 
     config.autoload_paths += %W(#{config.root}/lib)
