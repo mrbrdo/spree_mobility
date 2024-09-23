@@ -49,7 +49,7 @@ module SpreeMobility
 
             def set_permalink
               if spree_taxon_id
-                Mobility.with_locale(locale) do
+                ::Mobility.with_locale(locale) do
                   taxon = ::Spree::Taxon.find(spree_taxon_id)
                   if taxon.parent.present?
                     self.permalink = [taxon.parent.permalink, (permalink.blank? ? name.to_url : permalink.split('/').last)].join('/')
