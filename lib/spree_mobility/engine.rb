@@ -22,9 +22,18 @@ module SpreeMobility
       SpreeMobility.extend_reloadable_classes
     end
 
+    initializer "let the main autoloader ignore this engine's overrides" do
+      overrides = root.join("app/overrides")
+      Rails.autoloaders.main.ignore(overrides)
+    end
+
     def self.activate
       Dir.glob(File.join(root, "app/**/*_decorator*.rb")) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
+      end
+      
+      Dir.glob(File.join(File.dirname(__FILE__), "../../app/overrides/*.rb")) do |c|
+        load(c)
       end
     end
 
