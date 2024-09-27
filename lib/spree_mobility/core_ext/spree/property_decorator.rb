@@ -7,7 +7,7 @@ module SpreeMobility
           SpreeMobility.translates_for base, *base::TRANSLATABLE_FIELDS
 
           base.translation_class.class_eval do
-            validates :name, :presentation, presence: true
+            validates :presentation, presence: true
           end
         end
 
